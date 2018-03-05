@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 17:42:01 by jrobin            #+#    #+#             */
-/*   Updated: 2018/03/05 19:34:01 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/03/05 21:26:36 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,16 @@ int		get_nb_ants(t_ants *ant)
 
 	if (get_next_line(0, &line) < 1)
 		return (FAILURE);
-	if (!ft_isint(line) || ((ant->nb_ants = ft_atoi(line)) < 1))
+	if (ft_isint(line))
 	{
-		free(line);
-		return (FAILURE);
+		if ((ant->nb_ants = ft_atoi(line)) < 1)
+		{
+			free(line);
+			return (FAILURE);
+		}
 	}
+	else
+		return (FAILURE);
 	return (SUCCESS);
 }
 
