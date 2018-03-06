@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 17:42:01 by jrobin            #+#    #+#             */
-/*   Updated: 2018/03/05 21:26:36 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/03/06 17:13:17 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,14 @@ int		get_nb_ants(t_ants *ant)
 	return (SUCCESS);
 }
 
-int		collect_parse_data(t_lemin *lemin, t_rooms *room, t_ants *ant)
+int		collect_parse_data(t_lemin *lemin, t_room *room, t_ants *ant)
 {
 	(void)lemin;
 	(void)room;
 	if (get_nb_ants(ant))
+		return (FAILURE);
+	ft_printf("ok ants\n");
+	if (get_rooms())
 		return (FAILURE);
 	return (SUCCESS);
 }

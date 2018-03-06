@@ -6,7 +6,7 @@
 #    By: jrobin <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/11 19:28:47 by jrobin            #+#    #+#              #
-#    Updated: 2018/03/05 19:32:19 by jrobin           ###   ########.fr        #
+#    Updated: 2018/03/06 17:07:54 by jrobin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,8 @@ DIR_SRC:=	sources/
 DIR_OBJ:=	obj/
 
 SRC_BASE= main.c \
-		  collect_parse.c
+		  collect_parse.c \
+		  rooms.c
 
 OBJS=		$(addprefix $(DIR_OBJ), $(SRC_BASE:.c=.o))
 

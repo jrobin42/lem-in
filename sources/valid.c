@@ -1,34 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   valid.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/05 17:30:34 by jrobin            #+#    #+#             */
-/*   Updated: 2018/03/06 17:04:12 by jrobin           ###   ########.fr       */
+/*   Created: 2018/03/06 16:44:54 by jrobin            #+#    #+#             */
+/*   Updated: 2018/03/06 16:45:02 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lem_in.h"
-
-int		main(void)
+int		is_command(char *s)
 {
-	t_lemin		lemin;
-	t_room		room;
-	t_ants		ant;
-
-//	while (1)
-	{
-		ant.nb_ants = 1000;
-		if (collect_parse_data(&lemin, &room, &ant))
-		{
-			ft_printf("ERROR {%d}\n", ant.nb_ants);
-		}
-		else
-			ft_printf("SUCCESS {%d}\n", ant.nb_ants);
-	}
-	//	pathfinding();
-	//	free_lemin();
-	return (0);
+	if (*s == '#' && *(s + 1) && *(s + 1) == '#')
+		return (TRUE);
+	return (FALSE);
 }
+
+int		is_comment(char *s)
+{
+	if (*s == '#' && (!*(s + 1) || *(s + 1) != '#'))
+		return (TRUE);
+	return (FALSE);
+}
+
+int		is_valid(char *s)
+{
+	if (is_comment(s))
+		return (SUCCESS);
+	if (is_command(s) || wich_command(s, room))
+		return (SUCCESS);
+}
+
+
