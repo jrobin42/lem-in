@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 17:42:01 by jrobin            #+#    #+#             */
-/*   Updated: 2018/03/09 08:30:42 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/03/10 20:19:01 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,24 @@ int		get_nb_ants(t_ants *ant, t_lemin *lemin)
 			free(LINE);
 			return (FAILURE);
 		}
-		*L_DATA = ft_strdup(LINE);
+		lemin->to_print = ft_lstnew(LINE, sizeof(char *));
 	}
 	else
 		return (FAILURE);
 	return (SUCCESS);
 }
 
+int is_tube(char *line, t_lemin *lemin)
+{
+	(void)line;
+	(void)lemin;
+	return (0);
+}
 int		collect_parse_data(t_lemin *lemin, t_room *room, t_ants *ant)
 {
 	int		ret;
 
+	(void)room;
 	bzero(lemin, sizeof(t_lemin));
 	if (get_nb_ants(ant, lemin) == FAILURE)
 		return (FAILURE);
@@ -41,18 +48,16 @@ int		collect_parse_data(t_lemin *lemin, t_room *room, t_ants *ant)
 	{
 		if ((ret = is_command(LINE, lemin)) || (ret = is_comment(LINE, lemin)))
 		{
-			if (ret == FAILURE || (ret == is_start_end(LINE, &lemin) && STEP))
+			if (ret == FAILURE || (ret == is_start_end(LINE, lemin) && STEP))
 				return (FAILURE);
+			ft_printf("commmmment\n");
+			ft_lstadd_end(&lemin->to_print, ft_lstnew(LINE, sizeof(char*)));
 			continue ;
 		}
 		if (STEP == 0 && (ret = is_room(LINE, lemin)) == TRUE)
-		{
-			if (stock_data_room(L_DATA, lemin) == FAILURE)
-				return ();
-			ft_lstadd(&(*lemin)->all, ft_lstnew(L_ROOM, sizeof(L_ROOM)));
-		}
+			stock_data_room(L_DATA, lemin);
 		else if (STEP == 1 && (ret = is_tube(LINE, lemin)))
-			ft_printf("tuuube\n");;
+			ft_printf("tuuube\n");
 		else
 			break ;
 	}

@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 16:49:02 by jrobin            #+#    #+#             */
-/*   Updated: 2018/03/09 08:30:44 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/03/10 20:36:47 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 # define STEP lemin->step
 # define LINE lemin->line
 # define L_DATA lemin->data
-# define L_ROOM lemin->all->content
+# define L_ROOM ((t_room*)lemin->all->content)
 
 typedef struct		s_ants
 {
@@ -51,7 +51,8 @@ typedef struct		s_lemin
 	char			*all_data;
 	int				step;
 	int				**tubes;
-	char			*to_print;
+	t_list			*to_print;
+	t_list			*beg_to_print;
 	t_list			*all;
 	t_room			*start;
 	t_room			*end;
@@ -59,9 +60,12 @@ typedef struct		s_lemin
 
 int					collect_parse_data(t_lemin *lemin, t_room *room, 
 										t_ants *ant);
-int					is_room(t_lemin *lemin);
+int					is_room(char *line, t_lemin *lemin);
 int					is_command(char *line, t_lemin *lemin);
 int					is_comment(char *line, t_lemin *lemin);
 int					is_start_end(char *line, t_lemin *lemin);
+int					stock_data_room(char **data, t_lemin *lemin);
+int	is_tube(char *line, t_lemin *lemin);
+int					error_room(t_lemin *lemin);
 
 #endif
