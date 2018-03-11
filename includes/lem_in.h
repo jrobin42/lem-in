@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 16:49:02 by jrobin            #+#    #+#             */
-/*   Updated: 2018/03/11 19:21:05 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/03/11 20:16:01 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ typedef struct		s_lemin
 	t_list			*end;
 }					t_lemin;
 
-int					collect_parse_data(t_lemin *lemin, t_room *room, 
+int					collect_parse_data(t_lemin *lemin, 
 										t_ants *ant);
 int					is_room(char *line, t_lemin *lemin);
 int					is_command(char *line, t_lemin *lemin);

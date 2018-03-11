@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 17:30:34 by jrobin            #+#    #+#             */
-/*   Updated: 2018/03/11 19:42:53 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/03/11 20:15:47 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,9 @@
 int		main(void)
 {
 	t_lemin		lemin;
-	t_room		room;
 	t_ants		ant;
 
-	if (collect_parse_data(&lemin, &room, &ant))
+	if (collect_parse_data(&lemin, &ant))
 		ft_printf("ERROR\n");
 	else
 		ft_printf("SUCCESS\n");
