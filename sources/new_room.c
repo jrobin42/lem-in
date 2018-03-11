@@ -6,11 +6,22 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/09 03:13:28 by jrobin            #+#    #+#             */
-/*   Updated: 2018/03/11 15:17:46 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/03/11 20:04:42 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
+
+static void		set_start_end(t_lemin *lemin)
+{
+	t_list	*tmp;
+
+	tmp = lemin->all;
+	while (tmp->next)
+		tmp = tmp->next;
+	lemin->plop == 1 ? lemin->start = tmp : (lemin->end = tmp);
+	lemin->plop = 0;
+}
 
 int		stock_data_room(char **data, t_lemin *lemin)
 {
@@ -23,29 +34,34 @@ int		stock_data_room(char **data, t_lemin *lemin)
 	room->coord_y = ft_atoi(data[2]);
 	ft_lstadd_end(&lemin->all, ft_lstnew(room, sizeof(t_room)));
 	ft_lstadd_end(&lemin->to_print, ft_lstnew(LINE, sizeof(char*)));
+	if (lemin->plop)
+		set_start_end(lemin);
 	return (SUCCESS);
 }
 
 int		is_start_end(char *line, t_lemin *lemin)
 {
-	int		ret;
-
-	(void)lemin;
 	if (ft_strequ("##start", line))
-		ret = 1;
-	if (ft_strequ("##end", line))
-		ret = 2;
-	else
-		ret = 0;
-//	L_ROOM->type = ret;  //type n'existe plus, set les ptrs lemin->start et ->end
-	return (ret);
+	{
+		if (lemin->start || lemin->plop)
+			return (FAILURE);
+		lemin->plop = 1;
+	}
+	else if (ft_strequ("##end", line))
+	{
+		if (lemin->end || lemin->plop)
+			return (FAILURE);
+		lemin->plop = 2;
+	}
+	return (SUCCESS);
 }
 
 int		is_command(char *line, t_lemin *lemin)
 {
 	if (ft_strnequ("##", line, 2))
 	{
-		is_start_end(line, lemin);
+		if (is_start_end(line, lemin) == FAILURE)
+			return (FAILURE);
 		return (TRUE);
 	}
 	return (*line ? FALSE : FAILURE);
@@ -80,16 +96,12 @@ int		is_room(char *line, t_lemin *lemin)
 		return (FAILURE);
 	if (ft_strchr(*L_DATA, '-'))
 	{
-		if (error_room(lemin))
+		if (error_room(lemin) || lemin->plop)
 			return (FAILURE);
-	ft_printf("tube\n");
-		lemin->step = 1;
+		STEP = 1;
 		return (FALSE);
 	}
 	if (wrong_nb_params(L_DATA) || arent_coord(L_DATA + 1))
-	{
 		return (FAILURE);
-	}
-	ft_printf("\t\t\tc'est une room !\n");
 	return (TRUE);
 }

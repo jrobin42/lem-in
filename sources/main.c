@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 17:30:34 by jrobin            #+#    #+#             */
-/*   Updated: 2018/03/11 14:48:16 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/03/11 19:42:53 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ int		main(void)
 		ft_printf("ERROR\n");
 	else
 		ft_printf("SUCCESS\n");
+	ft_printf("END %s\n", ((t_room*)lemin.end->content)->name);
+	ft_printf("START %s\n", ((t_room*)lemin.start->content)->name);
 /*	while (lemin.all)
 	{
 		ft_printf("ROOMNAME %s\n", ((t_room*)(lemin.all->content))->name);

@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 16:49:02 by jrobin            #+#    #+#             */
-/*   Updated: 2018/03/10 20:36:47 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/03/11 19:21:05 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,13 @@ typedef struct		s_lemin
 {
 	char			*line;
 	char			**data;
-	char			*all_data;
 	int				step;
 	int				**tubes;
+	int				plop; //0->rien 1->start 2->end
 	t_list			*to_print;
-	t_list			*beg_to_print;
 	t_list			*all;
-	t_room			*start;
-	t_room			*end;
+	t_list			*start;
+	t_list			*end;
 }					t_lemin;
 
 int					collect_parse_data(t_lemin *lemin, t_room *room, 
