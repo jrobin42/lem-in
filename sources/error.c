@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/10 20:21:14 by jrobin            #+#    #+#             */
-/*   Updated: 2018/03/10 20:45:54 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/03/11 15:36:31 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,11 @@ int		same_coord(t_list *data)
 	{
 		if (((t_room*)data->content)->coord_x == ((t_room*)move->content)->coord_x && ((t_room*)data->content)->coord_y == ((t_room*)move->content)->coord_y)
 			return (TRUE);
+		if (ft_strequ(((t_room*)data->content)->name, ((t_room*)move->content)->name))
+			return (TRUE);
 		move = move->next;
 	}
-		ft_printf("%s\n", ((t_room*)data->next->content)->name);
-	return (data && data->next ? TRUE : FALSE);
+	return (FALSE);
 }
 
 int		error_room(t_lemin *lemin)

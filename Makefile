@@ -6,7 +6,7 @@
 #    By: jrobin <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/11 19:28:47 by jrobin            #+#    #+#              #
-#    Updated: 2018/03/10 20:37:28 by jrobin           ###   ########.fr        #
+#    Updated: 2018/03/11 15:12:11 by jrobin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ LIB =		$(PATH_LIB)$(NAME_LIB)
 PATH_INC=	includes/
 
 CC=			gcc
-FLAGS=		-Wall -Wextra -Werror -g
+FLAGS=		-Wall -Wextra  -g
 
 DIR_SRC:=	sources/
 DIR_OBJ:=	obj/
