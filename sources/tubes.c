@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 14:06:14 by jrobin            #+#    #+#             */
-/*   Updated: 2018/03/13 15:40:53 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/03/13 15:48:17 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,6 @@ int		create_adjacency_matrix(t_lemin *lemin)
 		else
 			--i;
 		lemin->all = lemin->all->next;
-	}
-	i = 0;
-	while (i < lemin->nb_rooms)
-	{
-		ft_printf("HEHE%d %s\n", i, (rooms[i])->name);
-		++i;
 	}
 	STEP = 2;
 	return (SUCCESS);
