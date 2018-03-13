@@ -6,7 +6,7 @@
 #    By: jrobin <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/11 19:28:47 by jrobin            #+#    #+#              #
-#    Updated: 2018/03/11 15:12:11 by jrobin           ###   ########.fr        #
+#    Updated: 2018/03/13 15:38:33 by jrobin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ LIB =		$(PATH_LIB)$(NAME_LIB)
 PATH_INC=	includes/
 
 CC=			gcc
-FLAGS=		-Wall -Wextra  -g
+FLAGS=		-Wall -Wextra -Werror -fsanitize=address -g
 
 DIR_SRC:=	sources/
 DIR_OBJ:=	obj/
@@ -27,7 +27,9 @@ DIR_OBJ:=	obj/
 SRC_BASE= main.c \
 		  collect_parse.c \
 		  new_room.c \
-		  error.c
+		  error.c \
+		  ants.c \
+		  tubes.c
 
 OBJS=		$(addprefix $(DIR_OBJ), $(SRC_BASE:.c=.o))
 

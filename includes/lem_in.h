@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 16:49:02 by jrobin            #+#    #+#             */
-/*   Updated: 2018/03/11 20:16:01 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/03/13 14:36:50 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@
 # define FAILURE -1
 # define TRUE 1
 # define FALSE 0
-# define IS_LINK 2
-# define END_PARSE -2
 
 # define STEP lemin->step
 # define LINE lemin->line
@@ -49,6 +47,7 @@ typedef struct		s_lemin
 	char			*line;
 	char			**data;
 	int				step;
+	int				nb_rooms;
 	int				**tubes;
 	int				plop; //0->rien 1->start 2->end
 	t_list			*to_print;
@@ -66,5 +65,7 @@ int					is_start_end(char *line, t_lemin *lemin);
 int					stock_data_room(char **data, t_lemin *lemin);
 int	is_tube(char *line, t_lemin *lemin);
 int					error_room(t_lemin *lemin);
+int					parse_ants(t_ants *ant, t_lemin *lemin);
+int					create_adjacency_matrix(t_lemin *lemin);
 
 #endif

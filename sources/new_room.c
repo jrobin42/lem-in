@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/09 03:13:28 by jrobin            #+#    #+#             */
-/*   Updated: 2018/03/11 20:04:42 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/03/13 14:49:34 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ int		stock_data_room(char **data, t_lemin *lemin)
 {
 	t_room		*room;
 
+	if (ft_strchr(*data, '-'))
+		return (FAILURE);
 	if ((room = ft_memalloc(sizeof(t_room))) == NULL)
 		return (FAILURE);
 	room->name = data[0];
@@ -36,6 +38,7 @@ int		stock_data_room(char **data, t_lemin *lemin)
 	ft_lstadd_end(&lemin->to_print, ft_lstnew(LINE, sizeof(char*)));
 	if (lemin->plop)
 		set_start_end(lemin);
+	++lemin->nb_rooms;
 	return (SUCCESS);
 }
 
@@ -96,7 +99,7 @@ int		is_room(char *line, t_lemin *lemin)
 		return (FAILURE);
 	if (ft_strchr(*L_DATA, '-'))
 	{
-		if (error_room(lemin) || lemin->plop)
+		if (error_room(lemin) || lemin->plop || !lemin->start || !lemin->end)
 			return (FAILURE);
 		STEP = 1;
 		return (FALSE);
