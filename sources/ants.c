@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 14:03:36 by jrobin            #+#    #+#             */
-/*   Updated: 2018/03/13 15:39:03 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/03/15 18:48:55 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int		get_nb_ants(t_ants *ant, t_lemin *lemin)
 			free(LINE);
 			return (FAILURE);
 		}
-		lemin->to_print = ft_lstnew(LINE, sizeof(char *));
+		lemin->to_print = ft_lstnew(&LINE, sizeof(char *));
 	}
 	else
 		return (FAILURE);

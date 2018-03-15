@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 17:30:34 by jrobin            #+#    #+#             */
-/*   Updated: 2018/03/15 15:45:36 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/03/15 19:52:06 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,22 +22,23 @@ int		main(void)
 		ft_printf("ERROR\n");
 	else
 		ft_printf("SUCCESS\n");
-	ft_printf("%d\n", lemin.nb_rooms);
-	int i = 0;
-	while (i < lemin.nb_rooms)
-	{
-		ft_printf("%s\n", ((lemin.rooms)[i])->name);
-		i++;
-	}
-/*	while (lemin.all)
-	{
-		ft_printf("ROOMNAME %s\n", ((t_room*)(lemin.all->content))->name);
-		lemin.all = lemin.all->next;
-	}
 	while (lemin.to_print)
 	{
-	ft_printf("%s\n", (char*)lemin.to_print->content);
-	lemin.to_print = lemin.to_print->next;
+		printf("\t%s\n", *((char**)(lemin.to_print->content)));
+		lemin.to_print = lemin.to_print->next;
+	}
+/*	int i = 0;
+	int j;
+	while (i < lemin.nb_rooms)
+	{
+		j = 0;
+		while (j < lemin.nb_rooms)
+		{
+			ft_printf("%2d", lemin.adj_mtx[i][j]);
+			++j;
+		}
+		ft_printf("\n");
+		++i;
 	}
 */	//	pathfinding();
 	//	free_lemin();
