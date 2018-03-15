@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 16:49:02 by jrobin            #+#    #+#             */
-/*   Updated: 2018/03/13 14:36:50 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/03/15 15:34:00 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@
 # define LINE lemin->line
 # define L_DATA lemin->data
 # define L_ROOM ((t_room*)lemin->all->content)
+# define START ((t_room*)lemin->start)
+# define END ((t_room*)lemin->end)
 
 typedef struct		s_ants
 {
@@ -54,6 +56,7 @@ typedef struct		s_lemin
 	t_list			*all;
 	t_list			*start;
 	t_list			*end;
+	t_room			**rooms;
 }					t_lemin;
 
 int					collect_parse_data(t_lemin *lemin, 
@@ -66,6 +69,6 @@ int					stock_data_room(char **data, t_lemin *lemin);
 int	is_tube(char *line, t_lemin *lemin);
 int					error_room(t_lemin *lemin);
 int					parse_ants(t_ants *ant, t_lemin *lemin);
-int					create_adjacency_matrix(t_lemin *lemin);
+int					create_adjacency_matrix(t_room ***rooms, t_lemin *lemin);
 
 #endif

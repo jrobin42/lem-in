@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 17:30:34 by jrobin            #+#    #+#             */
-/*   Updated: 2018/03/13 14:48:42 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/03/15 15:45:36 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,12 @@ int		main(void)
 	else
 		ft_printf("SUCCESS\n");
 	ft_printf("%d\n", lemin.nb_rooms);
+	int i = 0;
+	while (i < lemin.nb_rooms)
+	{
+		ft_printf("%s\n", ((lemin.rooms)[i])->name);
+		i++;
+	}
 /*	while (lemin.all)
 	{
 		ft_printf("ROOMNAME %s\n", ((t_room*)(lemin.all->content))->name);

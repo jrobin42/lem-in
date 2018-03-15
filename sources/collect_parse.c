@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 17:42:01 by jrobin            #+#    #+#             */
-/*   Updated: 2018/03/13 15:32:11 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/03/13 16:05:20 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int		collect_parse_data(t_lemin *lemin, t_ants *ant)
 			stock_data_room(L_DATA, lemin);
 		else if (STEP > 0 && !(lemin->plop) && (ret = is_tube(LINE, lemin)))
 		{
-			if (STEP == 1 && create_adjacency_matrix(lemin) == FAILURE)
+			if (STEP == 1 && create_adjacency_matrix(&(lemin->rooms), lemin) == FAILURE)
 				return (FAILURE);
 		}
 		else
