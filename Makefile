@@ -6,7 +6,7 @@
 #    By: jrobin <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/11 19:28:47 by jrobin            #+#    #+#              #
-#    Updated: 2018/03/13 15:38:33 by jrobin           ###   ########.fr        #
+#    Updated: 2018/03/16 19:02:41 by jrobin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,8 @@ SRC_BASE= main.c \
 		  new_room.c \
 		  error.c \
 		  ants.c \
-		  tubes.c
+		  tubes.c \
+		  pathfinding.c
 
 OBJS=		$(addprefix $(DIR_OBJ), $(SRC_BASE:.c=.o))
 

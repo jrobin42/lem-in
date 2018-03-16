@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 17:30:34 by jrobin            #+#    #+#             */
-/*   Updated: 2018/03/15 19:52:06 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/03/17 00:20:34 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,11 @@
 int		main(void)
 {
 	t_lemin		lemin;
+	t_path		path;
 	t_ants		ant;
 
 	ft_bzero(&lemin, sizeof(t_lemin));
+	ft_bzero(&path, sizeof(t_path));
 	if (collect_parse_data(&lemin, &ant))
 		ft_printf("ERROR\n");
 	else
@@ -27,6 +29,8 @@ int		main(void)
 		printf("\t%s\n", *((char**)(lemin.to_print->content)));
 		lemin.to_print = lemin.to_print->next;
 	}
+	pathfinding(&path, &lemin, lemin.adj_mtx);
+	ft_printf("max nb of paths = %d\n", path.max_nb_paths);
 /*	int i = 0;
 	int j;
 	while (i < lemin.nb_rooms)
@@ -40,7 +44,6 @@ int		main(void)
 		ft_printf("\n");
 		++i;
 	}
-*/	//	pathfinding();
-	//	free_lemin();
+*/	//	free_lemin();
 	return (0);
 }

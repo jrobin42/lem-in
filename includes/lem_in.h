@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 16:49:02 by jrobin            #+#    #+#             */
-/*   Updated: 2018/03/15 17:09:17 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/03/16 23:28:23 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,18 @@ typedef struct		s_room
 	char			*name;
 	int				coord_x;
 	int				coord_y;
+	int				prev;
 }					t_room;
+
+typedef struct		s_path
+{
+	int				max_nb_paths;
+	int				*path;
+}					t_path;
 
 typedef struct		s_lemin
 {
+	t_path			**paths;
 	char			*line;
 	char			**data;
 	int				step;
@@ -70,5 +78,6 @@ int					stock_data_room(char **data, t_lemin *lemin);
 int					error_room(t_lemin *lemin);
 int					parse_ants(t_ants *ant, t_lemin *lemin);
 int					create_adjacency_matrix(t_room ***rooms, t_lemin *lemin);
+int					pathfinding(t_path *path, t_lemin *lemin, int **mat);
 
 #endif

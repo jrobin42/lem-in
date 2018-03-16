@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 14:06:14 by jrobin            #+#    #+#             */
-/*   Updated: 2018/03/15 20:16:40 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/03/16 20:16:28 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,7 @@ static void		put_score(t_lemin *lemin, int i, int j)
 {
 	ADJ_MTX[i][j] = 1;
 	ADJ_MTX[j][i] = 1;
-	ft_printf("%s line\n", LINE);
-	ft_lstadd_end(&lemin->to_print, ft_lstnew(&LINE, 8/*ft_strlen(LINE)*/));
+	ft_lstadd_end(&lemin->to_print, ft_lstnew(&LINE, sizeof(char*)));
 }
 
 static int		is_tube(char *line, t_lemin *lemin)
@@ -96,6 +95,5 @@ int				create_adjacency_matrix(t_room ***rooms, t_lemin *lemin)
 		return (FAILURE);
 	if ((ret = is_tube(LINE, lemin)) == FAILURE)
 		return (FAILURE);
-	ft_printf("bello, ret = %d\n", ret);
 	return (ret == FALSE ? FALSE : 1);
 }

@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 17:42:01 by jrobin            #+#    #+#             */
-/*   Updated: 2018/03/15 18:46:57 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/03/16 22:56:51 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ int		collect_parse_data(t_lemin *lemin, t_ants *ant)
 		{
 			if ((ret = create_adjacency_matrix(&(lemin->rooms), lemin)) == FAILURE)
 				return (FAILURE);
-			ft_printf("reeeeeeeeeeeeeeeet = %d\n", ret);
 			if (ret == FALSE)
 				break ;
 		}
