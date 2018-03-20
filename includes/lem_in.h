@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 16:49:02 by jrobin            #+#    #+#             */
-/*   Updated: 2018/03/16 23:28:23 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/03/20 04:42:40 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ int					stock_data_room(char **data, t_lemin *lemin);
 int					error_room(t_lemin *lemin);
 int					parse_ants(t_ants *ant, t_lemin *lemin);
 int					create_adjacency_matrix(t_room ***rooms, t_lemin *lemin);
-int					pathfinding(t_path *path, t_lemin *lemin, int **mat);
+int					pathfinding(t_list *path, t_lemin *lemin, int **mat, int *max_nb_paths);
+int					print_solution(t_list *path, t_lemin *lemin, int max_nb_paths);
 
 #endif

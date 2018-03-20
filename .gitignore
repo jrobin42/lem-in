@@ -6,3 +6,5 @@ lem-in
 *.dSYM
 obj
 old_c
+maps/
+
