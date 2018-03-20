@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/16 19:02:09 by jrobin            #+#    #+#             */
-/*   Updated: 2018/03/17 00:30:32 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/03/20 02:26:44 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int		take_this_path(int **mat, int y, int x)
 	return (0);
 }
 
-void	maximum_nb_of_paths(t_path *p, int **mat, int max)
+int		maximum_nb_of_paths(t_path *p, int **mat, int max)
 {
 	int		i;
 	int		j;
@@ -46,23 +46,35 @@ void	maximum_nb_of_paths(t_path *p, int **mat, int max)
 			++j;
 		++x;
 	}
-	p->max_nb_paths = j < i ? j : i;
+	return (p->max_nb_paths = j < i ? j : i);
 }
 
-void	set_new_values(int *x, int *y, int *step, int *prev_y)
+void	update_path(int *x, int *y, int *path, int max)
 {
 	int		i;
 
 	i = 0;
-	while (step[i] != -1)
+	while (path[i] != -1 && i < max)
 		++i;
-	step[i] = *y;
-	*prev_y = *y;
+	path[i] = *y;
 	*y = *x;
-	*x = 0;
+	*x = -1;
 }
 
-static void		init_values(int *x, int *y, int *step, int max)
+void	go_back(int *x, int *y, int *path, int max)
+{
+	int		i;
+
+	i = 0;
+	*x = *y + 1;
+	while (i < max && path[i] != -1)
+		++i;
+	*y = path[i - 1];
+	path[i - 1] = -1;
+	ft_printf("new x = %d new y = %d\n", *x, *y);
+}
+
+static void		init_values(int *x, int *y, int *path, int max)
 {
 	int		i;
 
@@ -71,32 +83,52 @@ static void		init_values(int *x, int *y, int *step, int max)
 	i = 0;
 	while (i < max)
 	{
-		step[i] = -1;
+		path[i] = -1;
 		++i;
 	}
+}
+
+int		never_passed(int *path, int x, int max)
+{
+	int		i;
+
+	i = 0;
+	while (i < max && path[i] != -1)
+	{
+		if (path[i] == x)
+			return (FALSE);
+		++i;
+	}
+	return (TRUE);
 }
 
 int		shortest_path(t_path *p, int **mat, t_lemin *lemin)
 {
 	int		x;
 	int		y;
-	int		prev_y;
-	int		step[lemin->nb_rooms];
+	int		i;
+	int		len;
+	int		path[lemin->nb_rooms];
 
 	(void)p;
-	prev_y = 0;
-	init_values(&x, &y, step, lemin->nb_rooms);
-	while (x < lemin->nb_rooms && y < lemin->nb_rooms - 1)
+	i = 0;
+	len = 0;
+	init_values(&x, &y, path, lemin->nb_rooms);
+	while (y < lemin->nb_rooms - 1)
 	{
-		if (mat[y][x] == 1)
-			set_new_values(&x, &y, step, &prev_y);
-		x + 1 == prev_y ? x = x + 2 : ++x;
+	ft_printf("x = %d y = %d nb_rooms = %d\n", x, y, lemin->nb_rooms);
+		if (x == lemin->nb_rooms) 
+			go_back(&x, &y, path, lemin->nb_rooms - 1);	//c'est bien -1 le nb de rooms ??
+		else if (y != x && mat[y][x] == 1 && never_passed(path, x, lemin->nb_rooms - 1/* -1 ou bien ?*/))
+			update_path(&x, &y, path, lemin->nb_rooms - 1);
+		++x;
+		sleep(1);
 	}
-	if (y == lemin->nb_rooms - 1)
+	if (y == lemin->nb_rooms - 1 || x == lemin->nb_rooms)
 	{
 		int i = -1;
-		while (++i < lemin->nb_rooms)
-			ft_printf("step[%d] = %d\n", i, step[i]);
+		while (++i < lemin->nb_rooms - 1)
+			ft_printf("path[%d] = %d\n", i, path[i]);
 //		new_path()
 	}
 	return (SUCCESS);
@@ -104,8 +136,9 @@ int		shortest_path(t_path *p, int **mat, t_lemin *lemin)
 
 int		pathfinding(t_path *p, t_lemin *lemin, int **mat)
 {
-	maximum_nb_of_paths(p, mat, lemin->nb_rooms - 1);
+	if (maximum_nb_of_paths(p, mat, lemin->nb_rooms - 1) == 0)
+		return (FAILURE);
 //	while (ret != SUCCESS)
-	 	shortest_path(p, mat, lemin);
+	shortest_path(p, mat, lemin);
 	return (SUCCESS);
 }
