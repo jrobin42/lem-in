@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 16:49:02 by jrobin            #+#    #+#             */
-/*   Updated: 2018/03/20 04:42:40 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/03/20 06:55:30 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ typedef struct		s_room
 
 typedef struct		s_path
 {
-	int				max_nb_paths;
 	int				*path;
+	int				len_path;
 }					t_path;
 
 typedef struct		s_lemin

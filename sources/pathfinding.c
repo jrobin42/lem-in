@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/16 19:02:09 by jrobin            #+#    #+#             */
-/*   Updated: 2018/03/20 06:24:58 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/03/20 06:52:52 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ int		never_passed(int *path, int x, int max)
 
 int		shortest_path(t_list *pathhhh, int **mat, t_lemin *lemin)
 {
+	int		i;
 	int		x;	
 	int		y;
 	int		path[lemin->nb_rooms];
@@ -118,7 +119,7 @@ int		shortest_path(t_list *pathhhh, int **mat, t_lemin *lemin)
 		{
 			if (go_back(&x, &y, path, lemin->nb_rooms - 1) == FAILURE)	//c'est bien -1 le nb de rooms ??
 			{
-				ft_printf("bello?\n");
+				ft_printf("bello?----------->poubelle failuration\n");
 				return (FAILURE);
 			}
 		}
@@ -132,19 +133,20 @@ int		shortest_path(t_list *pathhhh, int **mat, t_lemin *lemin)
 		while (++i < lemin->nb_rooms - 1)
 			ft_printf("path[%d] = %d\n", i, path[i]);
 	}
-	int i = 0;
+	i = 0;
 	while (path[i] != -1)
 		++i;
 	mat[lemin->nb_rooms - 1][path[i - 1]] = 0;
 	mat[path[i - 1]][lemin->nb_rooms - 1] = 0;
-//	int	*haha;
-//	haha = malloc(lemin->nb_rooms * sizeof(int));
-//	while ()
 	ft_lstadd_end(&pathhhh, ft_lstnew(path, sizeof(path)));
-	ft_printf("holaaaaaaaaa%d\n", ((int*)path)[i]);
-	ft_printf("holaaaaaaaaa%d\n", ((int*)pathhhh->next->content)[i]);
-	ft_printf("alola\n\n");
-	sleep(1);
+	return (SUCCESS);
+}
+
+int		keep_best_solution(t_list *path, t_lemin *lemin)
+{
+	(void)path;
+	(void)lemin;
+	//avec 2 ->checker le chemin le plus petit sans repetition de salle entre les 
 	return (SUCCESS);
 }
 
@@ -152,21 +154,17 @@ int		pathfinding(t_list *path, t_lemin *lemin, int **mat, int *max_nb_paths)
 {
 	int		paths_found;
 
-	//	int		i;
-	//	int		j;
-
 	paths_found = 0;
 	if (maximum_nb_of_paths(max_nb_paths, mat, lemin->nb_rooms - 1) == 0)
 		return (FAILURE);
 	while (*max_nb_paths)
 	{
-		ft_printf("MAX NB PATH = %d\n", *max_nb_paths);
 		if (shortest_path(path, mat, lemin) == FAILURE && paths_found == 0)
 			return (FAILURE);
 		--*max_nb_paths;
 		++paths_found;
 	}
-	ft_printf("\t\t\t\there%p\n", path->next->content);
 	*max_nb_paths = paths_found;
+	keep_best_solution(path, lemin);
 	return (SUCCESS);
 }
