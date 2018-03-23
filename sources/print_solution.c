@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 04:39:53 by jrobin            #+#    #+#             */
-/*   Updated: 2018/03/20 06:29:12 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/03/23 15:54:52 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,30 @@
 int		print_solution(t_list *path, t_lemin *lemin, int max)
 {
 	(void)max;
-	int i = 0;
-	//int j;
-	//int a = 0;
 	(void)lemin;
-/*	while (i < lemin->nb_rooms)
+	int i = 0;
+	
+	ft_printf("path : %p\n",path);
+//	path = path->next;
+/*	while (path)
+	{
+		i = 0;
+		ft_printf("gooooooooooooood\n");
+		while (((int*)path->content)[i] != -1)
+		{
+		ft_printf("out\n");
+			ft_printf("path[i] : %d\n", ((int*)path->content)[i]);
+			++i;
+		}
+		path = path->next;
+	}
+*/
+/****************************************************************/
+/* Affichage matrice adjacence									*/
+/*																*/
+	int j;
+	int a = 0;
+	while (i < lemin->nb_rooms)
 	{
 		j = 0;
 		while (j < lemin->nb_rooms)
@@ -38,26 +57,16 @@ int		print_solution(t_list *path, t_lemin *lemin, int max)
 					break ;
 				}
 			}
-			ft_printf("%d ", lemin->adj_mtx[i][j]);
+			if (lemin->adj_mtx[i][j] != -2)
+				ft_printf(" %d", lemin->adj_mtx[i][j]);
+			else
+				ft_printf("%d", lemin->adj_mtx[i][j]);
+			ft_printf(" ");
 			++j;
 		}
 		ft_printf("\n");
 		++i;
-	}*/
-	ft_printf("path : %p\n",path);
-	path = path->next;
-	while (path)
-	{
-		i = 0;
-		ft_printf("gooooooooooooood\n");
-		while (((int*)path->content)[i] != -1)
-		{
-		ft_printf("out\n");
-			ft_printf("path[i] : %d\n", ((int*)path->content)[i]);
-			sleep(1);
-			++i;
-		}
-		path = path->next;
 	}
+/*************************************************************/
 	return (SUCCESS);
 }

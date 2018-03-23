@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/09 03:13:28 by jrobin            #+#    #+#             */
-/*   Updated: 2018/03/16 22:59:58 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/03/22 17:48:56 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int		stock_data_room(char **data, t_lemin *lemin)
 	if (ft_strchr(*data, '-'))
 		return (FAILURE);
 	if ((room = ft_memalloc(sizeof(t_room))) == NULL)
-		return (FAILURE);
+		exit(-1);
 	room->name = data[0];
 	room->coord_x = ft_atoi(data[1]);
 	room->coord_y = ft_atoi(data[2]);
@@ -101,7 +101,7 @@ int		is_room(char *line, t_lemin *lemin)
 	{
 		if (error_room(lemin) || lemin->plop || !lemin->start || !lemin->end)
 			return (FAILURE);
-		STEP = 1;
+		STEP = 2;
 		return (FALSE);
 	}
 	if (wrong_nb_params(L_DATA) || arent_coord(L_DATA + 1))

@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 14:06:14 by jrobin            #+#    #+#             */
-/*   Updated: 2018/03/16 20:16:28 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/03/23 11:20:55 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static void		put_score(t_lemin *lemin, int i, int j)
 {
-	ADJ_MTX[i][j] = 1;
-	ADJ_MTX[j][i] = 1;
+	ADJ_MTX[i][j] = -2;
+	ADJ_MTX[j][i] = -2;
 	ft_lstadd_end(&lemin->to_print, ft_lstnew(&LINE, sizeof(char*)));
 }
 
@@ -55,14 +55,14 @@ static int		create_matrix(t_lemin *lemin)
 
 	i = 0;
 	if ((ADJ_MTX = ft_memalloc(lemin->nb_rooms * sizeof(int*))) == NULL)
-		return (FAILURE);
+		exit(-1);
 	while (i < lemin->nb_rooms)
 	{
 		if ((ADJ_MTX[i] = ft_memalloc(lemin->nb_rooms * sizeof(int))) == NULL)
-			return (FAILURE);
+			exit(-1);
 		++i;
 	}
-	STEP = 2;
+	STEP = 3;
 	return (SUCCESS);
 }
 
@@ -90,7 +90,7 @@ int				create_adjacency_matrix(t_room ***rooms, t_lemin *lemin)
 {
 	int		ret;
 
-	if (STEP == 1 && (create_rooms_tab(rooms, lemin) == FAILURE ||
+	if (STEP == 2 && (create_rooms_tab(rooms, lemin) == FAILURE ||
 			create_matrix(lemin) == FAILURE))
 		return (FAILURE);
 	if ((ret = is_tube(LINE, lemin)) == FAILURE)
