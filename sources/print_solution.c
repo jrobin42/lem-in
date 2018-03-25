@@ -6,19 +6,17 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 04:39:53 by jrobin            #+#    #+#             */
-/*   Updated: 2018/03/25 18:34:01 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/03/25 23:36:32 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-int		print_solution(t_list *path, t_lemin *lemin, int max)
+int		print_solution(t_list *path, t_lemin *lemin)
 {
-	(void)max;
 //	int i = 0;
 	//int j;
 	//int a = 0;
-	(void)lemin;
 /*	while (i < lemin->nb_rooms)
 	{
 		j = 0;
@@ -44,7 +42,11 @@ int		print_solution(t_list *path, t_lemin *lemin, int max)
 		ft_printf("\n");
 		++i;
 	}*/
-	ft_printf("path : %p\n",path);
+	while (lemin->to_print)
+	{
+		printf("%s\n", *((char**)(lemin->to_print->content)));
+		lemin->to_print = lemin->to_print->next;
+	}
 	path = path->next;
 /*	while (path)
 	{

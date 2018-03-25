@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/10 20:21:14 by jrobin            #+#    #+#             */
-/*   Updated: 2018/03/16 22:58:25 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/03/25 23:35:53 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,8 @@ int		error_room(t_lemin *lemin)
 	while (tmp)
 	{
 		if (same_coord_or_name(tmp))
-		{
-			ft_printf("error rooooom\n");
 			return (FAILURE);
-		}
 		tmp = tmp->next;
 	}
-	ft_printf("no error room\n");
 	return (SUCCESS);
 }

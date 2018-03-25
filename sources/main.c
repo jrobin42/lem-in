@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 17:30:34 by jrobin            #+#    #+#             */
-/*   Updated: 2018/03/20 05:52:19 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/03/25 23:40:57 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,14 @@ int		main(void)
 
 	ft_bzero(&lemin, sizeof(t_lemin));
 	ft_bzero(&path, sizeof(t_list));
-	if (collect_parse_data(&lemin, &ant))
+	if (collect_parse_data(&lemin, &ant) == FAILURE)
+		ft_printf("ERROR\n");
+	else if (pathfinding(&path, &lemin, lemin.adj_mtx, &max_nb_paths) == FAILURE)
 		ft_printf("ERROR\n");
 	else
-		ft_printf("SUCCESS\n");
-	while (lemin.to_print)
-	{
-		printf("\t%s\n", *((char**)(lemin.to_print->content)));
-		lemin.to_print = lemin.to_print->next;
-	}
-	pathfinding(&path, &lemin, lemin.adj_mtx, &max_nb_paths);
-	print_solution(&path, &lemin, max_nb_paths);
-	
+		multi_path(ant.nb_ants, &lemin, &path);
 	//	free_lemin();
 	return (0);
 }
+
+/*Checker les cas d'erreurs evidemment*/

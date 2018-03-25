@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/16 19:02:09 by jrobin            #+#    #+#             */
-/*   Updated: 2018/03/25 21:36:00 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/03/25 22:43:52 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,11 +123,11 @@ int		find_path(t_list **all_paths, int **mat, t_lemin *lemin)
 	{
 		if (x == lemin->nb_rooms) 
 		{
-			if (go_back(&x, &y, path.path, lemin->nb_rooms - 1) == FAILURE)
+			if (go_back(&x, &y, path.path, lemin->nb_rooms) == FAILURE)
 				return (FAILURE);
 		}
-		if (y != x && mat[y][x] == 1 && never_passed(path.path, x, lemin->nb_rooms - 1))
-			update_path(&x, &y, path.path, lemin->nb_rooms - 1);
+		if (y != x && mat[y][x] == 1 && never_passed(path.path, x, lemin->nb_rooms))
+			update_path(&x, &y, path.path, lemin->nb_rooms);
 		++x;
 	}
 	lenght_calculation(&len, path.path, lemin->nb_rooms - 1);
