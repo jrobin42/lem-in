@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 16:49:02 by jrobin            #+#    #+#             */
-/*   Updated: 2018/03/20 06:55:30 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/03/25 20:53:02 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ typedef struct		s_room
 	char			*name;
 	int				coord_x;
 	int				coord_y;
-	int				prev;
+//	int				prev;
 }					t_room;
 
 typedef struct		s_path
@@ -54,12 +54,13 @@ typedef struct		s_path
 
 typedef struct		s_lemin
 {
-	t_path			**paths;
+//	t_path			**paths;
 	char			*line;
 	char			**data;
 	int				step;
 	int				nb_rooms;
 	int				**adj_mtx;
+	int				*used_rooms;
 	int				plop; //0->rien 1->start 2->end
 	t_list			*to_print;
 	t_list			*all;

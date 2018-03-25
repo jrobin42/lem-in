@@ -6,7 +6,7 @@
 #    By: jrobin <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/11 19:28:47 by jrobin            #+#    #+#              #
-#    Updated: 2018/03/20 05:31:54 by jrobin           ###   ########.fr        #
+#    Updated: 2018/03/25 20:29:59 by jrobin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ SRC_BASE= main.c \
 OBJS=		$(addprefix $(DIR_OBJ), $(SRC_BASE:.c=.o))
 
 all: 
-	@make -C $(PATH_LIB)
+	make -C $(PATH_LIB)
 	@make -j $(NAME)
 
 $(LIB):
@@ -54,11 +54,11 @@ $(DIR_OBJ):
 		@mkdir -p $(DIR_OBJ)
 		@mkdir -p $(dir $(OBJS))
 
-$(DIR_OBJ)%.o: $(DIR_SRC)%.c Makefile
+$(DIR_OBJ)%.o: $(DIR_SRC)%.c
 	@$(CC) $(FLAGS) -I $(PATH_INC) -I $(PATH_LIB)$(PATH_INC) -MMD -c $< -o $@  
 
 clean:
-	@make clean -C $(PATH_LIB)
+	make clean -C $(PATH_LIB)
 	@rm -rf $(DIR_OBJ)
 
 fclean: clean
@@ -67,4 +67,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY :	clean fclean re DEBUG LIB
+.PHONY :	all clean fclean re DEBUG LIB libft

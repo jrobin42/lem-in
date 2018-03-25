@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 04:39:53 by jrobin            #+#    #+#             */
-/*   Updated: 2018/03/20 06:29:12 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/03/25 18:34:01 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int		print_solution(t_list *path, t_lemin *lemin, int max)
 {
 	(void)max;
-	int i = 0;
+//	int i = 0;
 	//int j;
 	//int a = 0;
 	(void)lemin;
@@ -46,7 +46,7 @@ int		print_solution(t_list *path, t_lemin *lemin, int max)
 	}*/
 	ft_printf("path : %p\n",path);
 	path = path->next;
-	while (path)
+/*	while (path)
 	{
 		i = 0;
 		ft_printf("gooooooooooooood\n");
@@ -54,10 +54,9 @@ int		print_solution(t_list *path, t_lemin *lemin, int max)
 		{
 		ft_printf("out\n");
 			ft_printf("path[i] : %d\n", ((int*)path->content)[i]);
-			sleep(1);
 			++i;
 		}
 		path = path->next;
 	}
-	return (SUCCESS);
+*/	return (SUCCESS);
 }
