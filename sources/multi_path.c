@@ -6,20 +6,22 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/25 21:40:00 by jrobin            #+#    #+#             */
-/*   Updated: 2018/03/25 23:37:33 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/03/26 01:44:04 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
-
-static void		delete_biggest_room(t_list *path, t_list *next)
+/*
+static void		delete_biggest_room(t_list *prev, t_list **path)
 {
-	path->next = next->next;
-	free(((t_path*)next->content)->path);
-	free((t_path*)next->content);
-	free(next);
+	prev->next = (*path)->next;
+	free(((t_path*)(*path)->content)->path);
+	free((t_path*)(*path)->content);
+	free(*path);
 }
+*/
 
+/*Necessaire de reset used_room !*/
 static int		same_rooms(t_list *path, int max, t_lemin *lemin)
 {
 	int		j;
@@ -35,22 +37,30 @@ static int		same_rooms(t_list *path, int max, t_lemin *lemin)
 	return (FALSE);
 }
 
-static void		compare_paths(int nb_paths, t_list *path, int max, t_lemin *lemin)
+static void		compare_paths(int nb_paths, t_list **path, int max, t_lemin *lemin)
 {
 	t_list		*begin;
+	t_list		*prev;
 
-	begin = path;
-	path = path->next;
+	begin = *path;
+	prev = *path;
+	*path = (*path)->next;
 	same_rooms(begin, lemin->nb_rooms, lemin);
-	while (nb_paths && path)
+	while (nb_paths && *path)
 	{
-		if (same_rooms(path, max, lemin))
-			delete_biggest_room(path, path->next);
-		path = path->next;
+		if (same_rooms(*path, max, lemin))
+		{
+		//	delete_biggest_room(prev, path);
+			*path = prev;
+		}
+		else
+			prev = *path;
+		*path = (*path)->next;
 		--nb_paths;
 	}
-	if (path) /*freeeeeeeeee next et tout le reste d'apres*/
-		path->next = NULL;
+	if (*path) /*freeeeeeeeee next et tout le reste d'apres*/
+		(*path)->next = NULL;
+	*path = begin;
 }
 
 static int		choose_usefull_paths(int nb_ants, t_list *path)
@@ -77,22 +87,29 @@ static int		only_one_path(t_list *path)
 static int		first_path_is_sufficient(t_list *path, int nb_ants)
 {
 	if (PATH->len_path >= nb_ants
-	|| nb_ants <= ((t_path*)path->next->content)->len_path)
+			|| nb_ants <= ((t_path*)path->next->content)->len_path)
 		return (TRUE);
 	return (FALSE);
 }
 
-int				multi_path(int nb_ants, t_lemin *lemin, t_list *path)
+int				multi_path(int nb_ants, t_lemin *lemin, t_list **path)
 {
 	int		nb_paths;
 
-	if (only_one_path(path) || first_path_is_sufficient(path, nb_ants))
-		path->next = NULL;
+	if (only_one_path(*path) || first_path_is_sufficient(*path, nb_ants))
+	{
+		ft_printf("ONE PATH\n");
+		(*path)->next = NULL;
+	}
 	else
 	{
-		nb_paths = choose_usefull_paths(nb_ants, path);
+		ft_printf("MULTI\n");
+		ft_printf("*path = %p\n", *path);
+		nb_paths = choose_usefull_paths(nb_ants, *path);
+		ft_printf("*path = %p\n", *path);
 		compare_paths(nb_paths, path, lemin->nb_rooms, lemin);
+		ft_printf("*path = %p\n", *path);
 	}
-	print_solution(path, lemin);
+	print_solution(*path, lemin);
 	return (SUCCESS);
 }
