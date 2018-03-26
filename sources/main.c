@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 17:30:34 by jrobin            #+#    #+#             */
-/*   Updated: 2018/03/26 00:30:55 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/03/26 07:33:32 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int		main(void)
 	else if (pathfinding(&path, &lemin, lemin.adj_mtx, &max_nb_paths) == FAILURE)
 		ft_printf("ERROR\n");
 	else
-		multi_path(ant.nb_ants, &lemin, &path);
+		multi_path(&ant, ant.nb_ants, &lemin, &path);
 	//	free_lemin();
 	return (0);
 }

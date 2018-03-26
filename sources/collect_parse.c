@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 17:42:01 by jrobin            #+#    #+#             */
-/*   Updated: 2018/03/16 22:56:51 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/03/26 08:29:28 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int		collect_parse_data(t_lemin *lemin, t_ants *ant)
 				return (FAILURE);
 			if (ret == FALSE)
 				break ;
+	ft_printf("hahaha%p\n", lemin->rooms);
 		}
 		else
 			break ;

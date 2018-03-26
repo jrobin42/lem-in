@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 16:49:02 by jrobin            #+#    #+#             */
-/*   Updated: 2018/03/26 00:34:02 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/03/26 08:28:31 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef struct		s_path
 {
 	int				*path;
 	int				len_path;
+	int				num_ant;
 }					t_path;
 
 typedef struct		s_lemin
@@ -63,6 +64,8 @@ typedef struct		s_lemin
 	int				*used_rooms;
 	int				plop; //0->rien 1->start 2->end
 	t_list			*to_print;
+	int				time;
+	int				*ants_for_each_path;
 	t_list			*all;
 	t_list			*start;
 	t_list			*end;
@@ -80,7 +83,7 @@ int					error_room(t_lemin *lemin);
 int					parse_ants(t_ants *ant, t_lemin *lemin);
 int					create_adjacency_matrix(t_room ***rooms, t_lemin *lemin);
 int					pathfinding(t_list **path, t_lemin *lemin, int **mat, int *max_nb_paths);
-int					multi_path(int nb_ants, t_lemin *lemin, t_list **path);
-int					print_solution(t_list *path, t_lemin *lemin/*, int max_nb_paths*/);
+int					multi_path(t_ants *ants, int nb_ants, t_lemin *lemin, t_list **path);
+int					print_solution(t_ants *ants, t_list *path, t_lemin *lemin/*, int max_nb_paths*/);
 
 #endif

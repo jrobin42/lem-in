@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/16 19:02:09 by jrobin            #+#    #+#             */
-/*   Updated: 2018/03/26 05:02:22 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/03/26 05:46:14 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,15 @@ void	update_path(int *x, int *y, int *path, t_lemin *lemin, int **mat)
 		if (mat[path[i]][path[k]] == 1 && lemin->used_rooms[path[k]] == 0)
 		{
 			lemin->used_rooms[path[k]] = 1;
-			++k;
-			path[k] = path[i];
+			path[++k] = path[i];
 			while (++k < lemin->nb_rooms && path[k] != -1)
+			{
+				lemin->used_rooms[path[k]] = 0;
 				path[k] = -1;
+			}
 		}
 		++k;
 	}
-
 }
 
 int		go_back(int *x, int *y, int *path, int max)
@@ -73,9 +74,7 @@ int		go_back(int *x, int *y, int *path, int max)
 	while (i < max && path[i] != -1)
 		++i;
 	if (i == 0)
-	{
 		return (FAILURE);
-	}
 	*y = path[i - 1];
 	path[i - 1] = -1;
 	return (SUCCESS);
@@ -128,33 +127,6 @@ static void		lenght_calculation(int *len, int *path, int max)
 	*len = i;
 }
 
-void	print_rooms(t_list *path, int max)
-{
-	int		i;
-
-	i = 0;
-	while (i < max && PATH->path[i] != -1)
-	{
-		++i;
-	}
-}
-/*
-static int		is_shortest_path(int *path, t_lemin *lemin, int **mat)
-{
-	int		i;
-	int		j;
-
-	i = 0;
-	while (i < lemin->nb_rooms - 1 && path[i + 1] != -1)
-		++i;
-	--i; //attention si jamais i est negatif
-	j = path[i];
-	while (j < lemin->nb_rooms && )
-	{
-		++j;
-	}
-}
-*/
 int		find_path(t_list **all_paths, int **mat, t_lemin *lemin)
 {
 	int		len;
@@ -165,21 +137,13 @@ int		find_path(t_list **all_paths, int **mat, t_lemin *lemin)
 	init_values(&x, &y, &(path.path), lemin);
 	while (y < lemin->nb_rooms - 1)
 	{
-		int i = -1;
-		while (++i < lemin->nb_rooms)
 		if (x == lemin->nb_rooms) 
 		{
 			if (go_back(&x, &y, path.path, lemin->nb_rooms) == FAILURE)
-			{
 				return (FAILURE);
-			}
 		}
 		if (y != x && mat[y][x] == 1 && never_passed(path.path, x, lemin->nb_rooms))
-		{
 			update_path(&x, &y, path.path, lemin, mat);
-		}
-//		if (y == lemin->nb_rooms - 1)
-//			is_shortest_path(path.path, lemin, mat);
 		++x;
 	}
 	lenght_calculation(&len, path.path, lemin->nb_rooms - 1);
@@ -187,14 +151,6 @@ int		find_path(t_list **all_paths, int **mat, t_lemin *lemin)
 	mat[lemin->nb_rooms - 1][path.path[len - 1]] = 0;
 	mat[path.path[len - 1]][lemin->nb_rooms - 1] = 0;
 	lst_insert_sort(all_paths, ft_lstnew(&path, sizeof(path)), &compare_len);
-	t_list *beg;
-	beg = *all_paths;
-	while (*all_paths)
-	{
-		print_rooms(*all_paths, lemin->nb_rooms);
-		*all_paths = (*all_paths)->next;
-	}
-	*all_paths = beg;
 	return (SUCCESS);
 }
 
