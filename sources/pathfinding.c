@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/16 19:02:09 by jrobin            #+#    #+#             */
-/*   Updated: 2018/03/26 04:41:37 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/03/26 05:02:22 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,16 +45,15 @@ void	update_path(int *x, int *y, int *path, t_lemin *lemin, int **mat)
 	i = 0;
 	while (path[i] != -1 && i < lemin->nb_rooms)
 		++i;
-	ft_printf("*y ========= %d\n", *y);
 	path[i] = *y;
 	*y = *x;
 	*x = -1;
 	k = 0;
 	while (k < i)
 	{
-		if (mat[path[i]][path[k]] == 1)
+		if (mat[path[i]][path[k]] == 1 && lemin->used_rooms[path[k]] == 0)
 		{
-			ft_printf("path i %d path k %d\n", path[i], path[k]);
+			lemin->used_rooms[path[k]] = 1;
 			++k;
 			path[k] = path[i];
 			while (++k < lemin->nb_rooms && path[k] != -1)
@@ -75,7 +74,6 @@ int		go_back(int *x, int *y, int *path, int max)
 		++i;
 	if (i == 0)
 	{
-		ft_printf("\t\t\tFAIL\n");
 		return (FAILURE);
 	}
 	*y = path[i - 1];
@@ -95,7 +93,7 @@ static void		init_values(int *x, int *y, int **path, t_lemin *lemin)
 		exit(-1);
 	while (i < lemin->nb_rooms)
 	{
-		lemin->used_rooms[i] = -1;
+		lemin->used_rooms[i] = 0;
 		(*path)[i] = -1;
 		++i;
 	}
@@ -137,10 +135,8 @@ void	print_rooms(t_list *path, int max)
 	i = 0;
 	while (i < max && PATH->path[i] != -1)
 	{
-		ft_printf("[%d] = %d\n", i, PATH->path[i]);
 		++i;
 	}
-	ft_printf("\n");
 }
 /*
 static int		is_shortest_path(int *path, t_lemin *lemin, int **mat)
@@ -167,24 +163,19 @@ int		find_path(t_list **all_paths, int **mat, t_lemin *lemin)
 	t_path	path;
 
 	init_values(&x, &y, &(path.path), lemin);
-	ft_printf("LOOKING FOR A NEW PATH\n");
 	while (y < lemin->nb_rooms - 1)
 	{
 		int i = -1;
 		while (++i < lemin->nb_rooms)
-			ft_printf("%d -> [[[%d]]]\n", i, path.path[i]);
-		ft_printf("\n");
 		if (x == lemin->nb_rooms) 
 		{
 			if (go_back(&x, &y, path.path, lemin->nb_rooms) == FAILURE)
 			{
-				ft_printf("\t\t\tbello?\n");
 				return (FAILURE);
 			}
 		}
 		if (y != x && mat[y][x] == 1 && never_passed(path.path, x, lemin->nb_rooms))
 		{
-			ft_printf("plop\n");
 			update_path(&x, &y, path.path, lemin, mat);
 		}
 //		if (y == lemin->nb_rooms - 1)
@@ -200,7 +191,6 @@ int		find_path(t_list **all_paths, int **mat, t_lemin *lemin)
 	beg = *all_paths;
 	while (*all_paths)
 	{
-		ft_printf("[[[[[[[[\n");
 		print_rooms(*all_paths, lemin->nb_rooms);
 		*all_paths = (*all_paths)->next;
 	}

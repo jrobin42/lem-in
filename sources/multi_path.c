@@ -6,12 +6,12 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/25 21:40:00 by jrobin            #+#    #+#             */
-/*   Updated: 2018/03/26 01:44:04 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/03/26 05:03:32 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
-/*
+
 static void		delete_biggest_room(t_list *prev, t_list **path)
 {
 	prev->next = (*path)->next;
@@ -19,14 +19,14 @@ static void		delete_biggest_room(t_list *prev, t_list **path)
 	free((t_path*)(*path)->content);
 	free(*path);
 }
-*/
+
 
 /*Necessaire de reset used_room !*/
 static int		same_rooms(t_list *path, int max, t_lemin *lemin)
 {
 	int		j;
 
-	j = 0;
+	j = 1;
 	while (j < max && PATH->path[j] != -1)
 	{
 		if (lemin->used_rooms[PATH->path[j]] == 1)
@@ -50,7 +50,7 @@ static void		compare_paths(int nb_paths, t_list **path, int max, t_lemin *lemin)
 	{
 		if (same_rooms(*path, max, lemin))
 		{
-		//	delete_biggest_room(prev, path);
+			delete_biggest_room(prev, path);
 			*path = prev;
 		}
 		else
