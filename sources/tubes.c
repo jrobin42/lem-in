@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 14:06:14 by jrobin            #+#    #+#             */
-/*   Updated: 2018/03/26 08:28:46 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/03/27 07:37:28 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,8 @@ static int		create_rooms_tab(t_room ***rooms, t_lemin *lemin)
 	tmp[lemin->nb_rooms - 1] = lemin->end->content;
 	while (lemin->all)
 	{
-		if (((t_room*)lemin->all->content) != lemin->start->content && ((t_room*)lemin->all->content) != lemin->end->content)
+		if (((t_room*)lemin->all->content) != lemin->start->content &&
+				((t_room*)lemin->all->content) != lemin->end->content)
 			tmp[++i] = (t_room*)lemin->all->content;
 		lemin->all = lemin->all->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 04:39:53 by jrobin            #+#    #+#             */
-/*   Updated: 2018/03/26 08:35:44 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/03/26 20:49:09 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int		print_solution(t_ants *ants, t_list *path, t_lemin *lemin)
 //	int		*w_ants;
 	t_list	*begin;
 
+	begin = path;
 	while (lemin->to_print)
 	{
 		printf("%s\n", *((char**)(lemin->to_print->content)));
@@ -51,28 +52,59 @@ int		print_solution(t_ants *ants, t_list *path, t_lemin *lemin)
 //	prepare_ants(&w_ants);
 	i = 1;
 	r_ants = ants->nb_ants - 1;
-	begin = path;
 	count = count_paths(path);
 	tmp = count;
 	PATH->num_ant = ants->nb_ants - r_ants;
 	tmp_num = ants->nb_ants - r_ants;
-//	ft_printf("-%p\n ", (lemin->rooms)[1]);
-	while (ants->nb_ants)
+	path =begin;
+	while (path)
 	{
-		while (tmp)
+		i = 0;
+		ft_printf("PATH \n");
+		while (i < lemin->nb_rooms && PATH->path[i] != -1)
 		{
+			ft_printf("%d ", PATH->path[i]);
+			++i;
+		}
+		ft_printf("\n");
+		path = path->next;
+	}
+		ft_printf("ppppppppppppp\n");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//	ft_printf("-%p\n ", (lemin->rooms)[1]);
+//	while (ants->nb_ants)
+//	{
+//		while (tmp)
+//		{
 //			ft_printf("-%p\n ", (lemin));
-			ft_printf("L%d-%s ", PATH->num_ant, (lemin->rooms)[PATH->path[i]]->name);
-			path = path->next;
-/*			if (path)
-			{
-				++tmp_num;
+//			ft_printf("L%d-%s ", PATH->num_ant,
+//				   	(lemin->rooms)[PATH->path[i]]->name);
+//			path = path->next;
+//*			if (path)
+//			{
+/*				++tmp_num;
 				PATH->num_ant = tmp_num;
 			}
-*/			--tmp;
+*//*			--tmp;
 		}
 		tmp = 1;
 		path = begin;
-	}
+	}*/
 	return (SUCCESS);
 }

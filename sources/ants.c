@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 14:03:36 by jrobin            #+#    #+#             */
-/*   Updated: 2018/03/16 22:56:39 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/03/26 19:57:38 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ int		parse_ants(t_ants *ants, t_lemin *lemin)
 {
 	if (get_nb_ants(ants, lemin) == FAILURE)
 		return (FAILURE);
+
+
 	if (get_name_ants(ants, lemin) == FAILURE)
 		return (FAILURE);
 	return (SUCCESS);

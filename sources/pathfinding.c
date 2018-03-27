@@ -1,173 +1,204 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pathfinding.c                                      :+:      :+:    :+:   */
+/*   pathfinding_new.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/16 19:02:09 by jrobin            #+#    #+#             */
-/*   Updated: 2018/03/26 05:46:14 by jrobin           ###   ########.fr       */
+/*   Created: 2018/03/27 02:31:23 by jrobin            #+#    #+#             */
+/*   Updated: 2018/03/27 08:34:19 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-int		maximum_nb_of_paths(int *max_nb_paths, int **mat, int max)
+static void		init_tab(int *prev, int *gap, int max)
+{
+	int		i;
+
+	i = 0;
+	while (i < max)
+	{
+		prev[i] = -1;
+		gap[i] = -1;
+		++i;
+	}
+}
+
+static int		smaller_gap(int *gap, int x, int curr_gap)
+{
+	if (gap[x] == -1 || gap[x] > curr_gap)
+		return (TRUE);
+	return (FALSE);
+}
+
+static void		update_path(int *gap, int *prev, int y, int x)
+{
+	gap[x] = gap[y] == -1 ? 1 : gap[y] + 1;
+	prev[x] = y;
+}
+
+static void		init_used_room(int *used_room, int max)
+{
+	int		i;
+
+	i = 0;
+	while (i < max)
+	{
+		used_room[i] = 0;
+		++i;
+	}
+}
+
+static int		browse_mat(int *prev, int *gap, int **mat, t_lemin *lemin)
+{
+	int		x;
+	int		y;
+	int		used_room[lemin->nb_rooms];
+	int		curr_gap;
+
+	y = 0;
+	curr_gap = 1;
+	init_used_room(used_room, lemin->nb_rooms);
+	while (y < lemin->nb_rooms)
+	{
+		x = -1;
+		while (++x < lemin->nb_rooms)
+			if (x && y != x && mat[y][x] == 1 && smaller_gap(gap, x, curr_gap)
+					&& used_room[y] == 0)
+			{
+	ft_printf("blabla\n");
+				/*y < lemin->nb_rooms ? */used_room[y] = 1 /*: 0*/;
+				update_path(gap, prev, y, x);
+			}
+		++curr_gap;
+		++y;
+	}
+	return (prev[lemin->nb_rooms - 1] != -1 ? SUCCESS : FAILURE);
+}
+
+static void		delete_access(int **mat, int max, t_path *path)
 {
 	int		i;
 	int		j;
-	int		x;
+	t_path	*tmp;
 
+	tmp = path;
+	while (tmp->next)
+		tmp = tmp->next;
 	i = 0;
-	j = 0;
-	x = 0;
-	while (x <= max)
+	while (i < max)
 	{
-		if (mat[max][x] == 1)
-			++i;
-		++x;
-	}
-	x = 0;
-	while (x <= max)
-	{
-		if (mat[0][x] == 1)
+		j = 1;
+		while (j < max && tmp->path[j])
+		{
+			mat[i][tmp->path[j]] = 0;
+			mat[tmp->path[j]][i] = 0;
 			++j;
-		++x;
-	}
-	return (*max_nb_paths = j < i ? j : i);
-}
-
-void	update_path(int *x, int *y, int *path, t_lemin *lemin, int **mat)
-{
-	int		i;
-	int		k;
-
-	i = 0;
-	while (path[i] != -1 && i < lemin->nb_rooms)
-		++i;
-	path[i] = *y;
-	*y = *x;
-	*x = -1;
-	k = 0;
-	while (k < i)
-	{
-		if (mat[path[i]][path[k]] == 1 && lemin->used_rooms[path[k]] == 0)
-		{
-			lemin->used_rooms[path[k]] = 1;
-			path[++k] = path[i];
-			while (++k < lemin->nb_rooms && path[k] != -1)
-			{
-				lemin->used_rooms[path[k]] = 0;
-				path[k] = -1;
-			}
 		}
-		++k;
-	}
-}
-
-int		go_back(int *x, int *y, int *path, int max)
-{
-	int		i;
-
-	i = 0;
-	*x = *y + 1;
-	while (i < max && path[i] != -1)
-		++i;
-	if (i == 0)
-		return (FAILURE);
-	*y = path[i - 1];
-	path[i - 1] = -1;
-	return (SUCCESS);
-}
-
-static void		init_values(int *x, int *y, int **path, t_lemin *lemin)
-{
-	int		i;
-
-	*x = 0;
-	*y = 0;
-	i = 0;
-	if (!(lemin->used_rooms = (int*)malloc(lemin->nb_rooms * sizeof(int))) ||
-			(*path = (int*)malloc(lemin->nb_rooms * sizeof(int))) == NULL)
-		exit(-1);
-	while (i < lemin->nb_rooms)
-	{
-		lemin->used_rooms[i] = 0;
-		(*path)[i] = -1;
 		++i;
 	}
 }
 
-int		never_passed(int *path, int x, int max)
+static int		check_prev(int *prev, int max)
 {
 	int		i;
 
 	i = 0;
-	while (i < max && path[i] != -1)
+	while (i < max)
 	{
-		if (path[i] == x)
-			return (FALSE);
-		++i;
-	}
-	return (TRUE);
-}
-
-int		compare_len(t_path *u, t_path *v)
-{
-	return (u->len_path < v->len_path ? 0 : 1);
-}
-
-static void		lenght_calculation(int *len, int *path, int max)
-{
-	int		i;
-
-	i = 0;
-	while (i < max && path[i] != -1)
-		++i;
-	*len = i;
-}
-
-int		find_path(t_list **all_paths, int **mat, t_lemin *lemin)
-{
-	int		len;
-	int		x;	
-	int		y;
-	t_path	path;
-
-	init_values(&x, &y, &(path.path), lemin);
-	while (y < lemin->nb_rooms - 1)
-	{
-		if (x == lemin->nb_rooms) 
+		if (prev[i] == 0)
 		{
-			if (go_back(&x, &y, path.path, lemin->nb_rooms) == FAILURE)
-				return (FAILURE);
+			ft_printf("success check prev %d\n", i); //attention fqire pathisvalid -> il faut checker si mon prev me donne bien un chemin
+			return (SUCCESS);
 		}
-		if (y != x && mat[y][x] == 1 && never_passed(path.path, x, lemin->nb_rooms))
-			update_path(&x, &y, path.path, lemin, mat);
-		++x;
+		++i;
 	}
-	lenght_calculation(&len, path.path, lemin->nb_rooms - 1);
-	path.len_path = len;
-	mat[lemin->nb_rooms - 1][path.path[len - 1]] = 0;
-	mat[path.path[len - 1]][lemin->nb_rooms - 1] = 0;
-	lst_insert_sort(all_paths, ft_lstnew(&path, sizeof(path)), &compare_len);
-	return (SUCCESS);
+	return (FAILURE);
 }
 
-int		pathfinding(t_list **path, t_lemin *lemin, int **mat, int *max_nb_paths)
+static void		save_path(int *prev, t_path **path, int max)
 {
-	int		paths_found;
+	int		i;
+	int		j;
+	t_path	*new;
 
-	paths_found = 0;
-	if (maximum_nb_of_paths(max_nb_paths, mat, lemin->nb_rooms - 1) == 0)
-		return (FAILURE);
-	while (*max_nb_paths)
+	new = *path;
+	if (new)
+		while (new && new->next)
+			new = new->next;
+	new = ft_memalloc(sizeof(t_path));
+	new->path = ft_memalloc((max + 1) * sizeof(int));
+	j = 0;
+	i = max;
+	while (j < max && prev[i] != 0)
 	{
-		if (find_path(path, mat, lemin) == FAILURE && paths_found == 0)
-			return (FAILURE);
-		--*max_nb_paths;
-		++paths_found;
+		printf("j = %d\n", j);
+		new->path[j] = i;
+		i = prev[i];
+		++j;
 	}
-	*max_nb_paths = paths_found;
+	new->path[j] = i;
+	if (*path)
+		(*path)->next = new;
+	else
+		*path = new;
+}
+
+static int		count_paths(int **mat, int max)
+{
+	int		i;
+	int		count1;
+	int		count2;
+
+	count1 = 0;
+	count2 = 0;
+	i = 1;
+	while (i < max)
+	{
+		if (mat[0][i] == 1)
+			++count1;
+		++i;
+	}
+	i = 0;
+	while (i < max - 1)
+	{
+		if (mat[max - 1][i] == 1)
+			++count2;
+		++i;
+	}
+	return (count1 < count2 ? count1 : count2);
+}
+
+int				pathfinding(t_lemin *lemin, int **mat, t_path *path)
+{
+	int		maximum_nb_paths;
+	int		prev[lemin->nb_rooms];
+	int		gap[lemin->nb_rooms];
+
+	maximum_nb_paths = count_paths(mat, lemin->nb_rooms);
+	while (maximum_nb_paths)
+	{
+		init_tab(prev, gap, lemin->nb_rooms);
+		if (browse_mat(prev, gap, mat, lemin) == SUCCESS
+				&& check_prev(prev, lemin->nb_rooms) == SUCCESS)
+		{
+			save_path(prev, &path, lemin->nb_rooms - 1);
+			delete_access(mat, lemin->nb_rooms, path);
+		}
+		--maximum_nb_paths;
+	}
+	while (path)
+	{
+		int i = 0;
+		printf("Path :\n");
+		while (i < lemin->nb_rooms - 1)
+		{
+			printf("path[%d] = %d\n", i, path->path[i]);
+			++i;
+		}
+		printf("\n\n");
+		path = path->next;
+	}
 	return (SUCCESS);
 }

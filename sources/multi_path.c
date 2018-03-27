@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/25 21:40:00 by jrobin            #+#    #+#             */
-/*   Updated: 2018/03/26 07:35:14 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/03/26 20:44:38 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,6 +189,7 @@ int				multi_path(t_ants *ants, int nb_ants, t_lemin *lemin, t_list **path)
 		compare_paths(path, nb_ants, lemin);
 	//	walking_ants(nb_ants, *path, lemin);
 	}
+//	(void)ants;
 	print_solution(ants, *path, lemin);
 	return (SUCCESS);
 }
