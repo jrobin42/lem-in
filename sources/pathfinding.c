@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/27 02:31:23 by jrobin            #+#    #+#             */
-/*   Updated: 2018/03/27 08:34:19 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/03/29 03:18:37 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,56 +25,37 @@ static void		init_tab(int *prev, int *gap, int max)
 	}
 }
 
-static int		smaller_gap(int *gap, int x, int curr_gap)
+static int		smaller_gap(int *gap, int x, int *curr_gap)
 {
-	if (gap[x] == -1 || gap[x] > curr_gap)
+	if (gap[x] == -1 || gap[x] > *curr_gap)
+	{
+		++*curr_gap;
 		return (TRUE);
+	}
 	return (FALSE);
 }
 
-static void		update_path(int *gap, int *prev, int y, int x)
+static void		update_path(int *gap, int *prev, int *y, int *x)
 {
-	gap[x] = gap[y] == -1 ? 1 : gap[y] + 1;
-	prev[x] = y;
-}
-
-static void		init_used_room(int *used_room, int max)
-{
-	int		i;
-
-	i = 0;
-	while (i < max)
-	{
-		used_room[i] = 0;
-		++i;
-	}
+	gap[*x] = gap[*y] == -1 ? 1 : gap[*y] + 1;
+	prev[*x] = *y;
+	*y = *x;
+	*x = 0;
 }
 
 static int		browse_mat(int *prev, int *gap, int **mat, t_lemin *lemin)
 {
 	int		x;
 	int		y;
-	int		used_room[lemin->nb_rooms];
 	int		curr_gap;
 
 	y = 0;
+	x = -1;
 	curr_gap = 1;
-	init_used_room(used_room, lemin->nb_rooms);
-	while (y < lemin->nb_rooms)
-	{
-		x = -1;
-		while (++x < lemin->nb_rooms)
-			if (x && y != x && mat[y][x] == 1 && smaller_gap(gap, x, curr_gap)
-					&& used_room[y] == 0)
-			{
-	ft_printf("blabla\n");
-				/*y < lemin->nb_rooms ? */used_room[y] = 1 /*: 0*/;
-				update_path(gap, prev, y, x);
-			}
-		++curr_gap;
-		++y;
-	}
-	return (prev[lemin->nb_rooms - 1] != -1 ? SUCCESS : FAILURE);
+	while (++x < lemin->nb_rooms && y < lemin->nb_rooms - 1)
+		if (x && y != x && mat[y][x] == 1 && smaller_gap(gap, x, &curr_gap))
+			update_path(gap, prev, &y, &x);
+	return (y == lemin->nb_rooms - 1 ? SUCCESS : FAILURE);
 }
 
 static void		delete_access(int **mat, int max, t_path *path)
@@ -100,23 +81,6 @@ static void		delete_access(int **mat, int max, t_path *path)
 	}
 }
 
-static int		check_prev(int *prev, int max)
-{
-	int		i;
-
-	i = 0;
-	while (i < max)
-	{
-		if (prev[i] == 0)
-		{
-			ft_printf("success check prev %d\n", i); //attention fqire pathisvalid -> il faut checker si mon prev me donne bien un chemin
-			return (SUCCESS);
-		}
-		++i;
-	}
-	return (FAILURE);
-}
-
 static void		save_path(int *prev, t_path **path, int max)
 {
 	int		i;
@@ -133,7 +97,6 @@ static void		save_path(int *prev, t_path **path, int max)
 	i = max;
 	while (j < max && prev[i] != 0)
 	{
-		printf("j = %d\n", j);
 		new->path[j] = i;
 		i = prev[i];
 		++j;
@@ -180,8 +143,7 @@ int				pathfinding(t_lemin *lemin, int **mat, t_path *path)
 	while (maximum_nb_paths)
 	{
 		init_tab(prev, gap, lemin->nb_rooms);
-		if (browse_mat(prev, gap, mat, lemin) == SUCCESS
-				&& check_prev(prev, lemin->nb_rooms) == SUCCESS)
+		if (browse_mat(prev, gap, mat, lemin) == SUCCESS)
 		{
 			save_path(prev, &path, lemin->nb_rooms - 1);
 			delete_access(mat, lemin->nb_rooms, path);
