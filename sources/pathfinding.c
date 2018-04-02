@@ -1,166 +1,105 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pathfinding_new.c                                  :+:      :+:    :+:   */
+/*   pathfindingv15.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/27 02:31:23 by jrobin            #+#    #+#             */
-/*   Updated: 2018/03/29 03:18:37 by jrobin           ###   ########.fr       */
+/*   Created: 2018/03/29 08:55:40 by jrobin            #+#    #+#             */
+/*   Updated: 2018/04/03 00:21:20 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-static void		init_tab(int *prev, int *gap, int max)
+static void		init_tab(int *prev, int *gap, int *visited, int *next_curr, int max)
 {
 	int		i;
 
 	i = 0;
 	while (i < max)
 	{
+		next_curr[i] = -1;
 		prev[i] = -1;
 		gap[i] = -1;
+		visited[i] = 0;
+		++i;
+	}
+	gap[0] = 0;
+	visited[0] = 1;
+}
+
+void		aff_prev(int *prev, int *gap, int max)
+{
+	int		i;
+
+	i = 0;
+	(void)prev;
+	(void)gap;
+	while (i < max)
+	{
+		ft_printf("prev[%d] = %d\n", i, prev[i]);
+	//	ft_printf("gap[%d] = %d\n", i, gap[i]);
 		++i;
 	}
 }
 
-static int		smaller_gap(int *gap, int x, int *curr_gap)
-{
-	if (gap[x] == -1 || gap[x] > *curr_gap)
-	{
-		++*curr_gap;
-		return (TRUE);
-	}
-	return (FALSE);
-}
-
-static void		update_path(int *gap, int *prev, int *y, int *x)
-{
-	gap[*x] = gap[*y] == -1 ? 1 : gap[*y] + 1;
-	prev[*x] = *y;
-	*y = *x;
-	*x = 0;
-}
-
-static int		browse_mat(int *prev, int *gap, int **mat, t_lemin *lemin)
-{
-	int		x;
-	int		y;
-	int		curr_gap;
-
-	y = 0;
-	x = -1;
-	curr_gap = 1;
-	while (++x < lemin->nb_rooms && y < lemin->nb_rooms - 1)
-		if (x && y != x && mat[y][x] == 1 && smaller_gap(gap, x, &curr_gap))
-			update_path(gap, prev, &y, &x);
-	return (y == lemin->nb_rooms - 1 ? SUCCESS : FAILURE);
-}
-
-static void		delete_access(int **mat, int max, t_path *path)
+void				set_next_curr(int *next_curr, int new, int max)
 {
 	int		i;
-	int		j;
-	t_path	*tmp;
 
-	tmp = path;
-	while (tmp->next)
-		tmp = tmp->next;
 	i = 0;
 	while (i < max)
 	{
-		j = 1;
-		while (j < max && tmp->path[j])
+		if (next_curr[i] == new)
+			return ;
+		if (next_curr[i] == -1)
 		{
-			mat[i][tmp->path[j]] = 0;
-			mat[tmp->path[j]][i] = 0;
-			++j;
+			next_curr[i] = new;
+			return ;
 		}
 		++i;
 	}
 }
 
-static void		save_path(int *prev, t_path **path, int max)
+int		pathfinding(t_lemin *lemin, int **mat, t_list **path)
 {
 	int		i;
-	int		j;
-	t_path	*new;
-
-	new = *path;
-	if (new)
-		while (new && new->next)
-			new = new->next;
-	new = ft_memalloc(sizeof(t_path));
-	new->path = ft_memalloc((max + 1) * sizeof(int));
-	j = 0;
-	i = max;
-	while (j < max && prev[i] != 0)
-	{
-		new->path[j] = i;
-		i = prev[i];
-		++j;
-	}
-	new->path[j] = i;
-	if (*path)
-		(*path)->next = new;
-	else
-		*path = new;
-}
-
-static int		count_paths(int **mat, int max)
-{
-	int		i;
-	int		count1;
-	int		count2;
-
-	count1 = 0;
-	count2 = 0;
-	i = 1;
-	while (i < max)
-	{
-		if (mat[0][i] == 1)
-			++count1;
-		++i;
-	}
-	i = 0;
-	while (i < max - 1)
-	{
-		if (mat[max - 1][i] == 1)
-			++count2;
-		++i;
-	}
-	return (count1 < count2 ? count1 : count2);
-}
-
-int				pathfinding(t_lemin *lemin, int **mat, t_path *path)
-{
-	int		maximum_nb_paths;
+	int		curr;
+	int		next;
+	int		next_curr[lemin->nb_rooms];
 	int		prev[lemin->nb_rooms];
 	int		gap[lemin->nb_rooms];
+	int		visited[lemin->nb_rooms];
 
-	maximum_nb_paths = count_paths(mat, lemin->nb_rooms);
-	while (maximum_nb_paths)
+	i = 0;
+	curr = 0;
+	(void)path;
+	init_tab(prev, gap, visited, next_curr, lemin->nb_rooms);
+	while (curr < lemin->nb_rooms - 1)
 	{
-		init_tab(prev, gap, lemin->nb_rooms);
-		if (browse_mat(prev, gap, mat, lemin) == SUCCESS)
+		next = 0;
+		while (next < lemin->nb_rooms)
 		{
-			save_path(prev, &path, lemin->nb_rooms - 1);
-			delete_access(mat, lemin->nb_rooms, path);
+			if (next != curr && visited[next] == 0 && mat[curr][next] == 1)
+			{
+				if (gap[next] == -1 || (gap[curr] + 1) < gap[next])
+				{
+					if (curr == 0)
+						gap[next] = 1;
+					else
+						gap[next] = gap[curr] + 1;
+					prev[next] = curr;
+					set_next_curr(next_curr, next, lemin->nb_rooms);
+					ft_printf("curr = %d next = %d\n", curr, next);
+				}
+			}
+			++next;
 		}
-		--maximum_nb_paths;
+		visited[curr] = 1;
+		curr = next_curr[i];
+		++i;
 	}
-	while (path)
-	{
-		int i = 0;
-		printf("Path :\n");
-		while (i < lemin->nb_rooms - 1)
-		{
-			printf("path[%d] = %d\n", i, path->path[i]);
-			++i;
-		}
-		printf("\n\n");
-		path = path->next;
-	}
+	aff_prev(prev, gap, lemin->nb_rooms);
 	return (SUCCESS);
 }

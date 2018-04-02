@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 16:49:02 by jrobin            #+#    #+#             */
-/*   Updated: 2018/03/27 04:14:46 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/04/02 23:20:12 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # define PATH ((t_path*)path->content)
 # define STEP lemin->step
 # define LINE lemin->line
+# define MAX lemin->nb_rooms
 # define L_DATA lemin->data
 # define L_ROOM ((t_room*)lemin->all->content)
 # define START ((t_room*)lemin->start->content)
@@ -60,11 +61,8 @@ typedef struct		s_lemin
 	int				step;
 	int				nb_rooms;
 	int				**adj_mtx;
-	int				*used_rooms;
-	int				plop; //0->rien 1->start 2->end
+	int				room_type; //0->rien 1->start 2->end
 	t_list			*to_print;
-	int				time;
-//	int				*ants_for_each_path;
 	t_list			*all; //all rooms
 	t_list			*start;
 	t_list			*end;
@@ -81,9 +79,10 @@ int					stock_data_room(char **data, t_lemin *lemin);
 int					error_room(t_lemin *lemin);
 int					parse_ants(t_ants *ant, t_lemin *lemin);
 int					create_adjacency_matrix(t_room ***rooms, t_lemin *lemin);
-int					pathfinding(t_lemin *lemin, int **mat, t_path *path);
+int					resolve_lemin(t_lemin *lemin, int **mat, t_path **path);
+int					pathfinding(t_lemin *lemin, int **mat, t_list **path);
 //int					pathfinding(t_list **path, t_lemin *lemin, int **mat, int *max_nb_paths);
 int					multi_path(t_ants *ants, int nb_ants, t_lemin *lemin, t_list **path);
-int					print_solution(t_ants *ants, t_list *path, t_lemin *lemin/*, int max_nb_paths*/);
+int					print_solution(t_ants *ants, t_path *path, t_lemin *lemin/*, int max_nb_paths*/);
 
 #endif

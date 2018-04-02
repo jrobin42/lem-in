@@ -6,7 +6,7 @@
 #    By: jrobin <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/11 19:28:47 by jrobin            #+#    #+#              #
-#    Updated: 2018/03/27 07:40:42 by jrobin           ###   ########.fr        #
+#    Updated: 2018/03/29 03:49:32 by jrobin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,8 +30,8 @@ SRC_BASE= main.c \
 		  error.c \
 		  ants.c \
 		  tubes.c \
-		  pathfinding.c
-#		  print_solution.c
+		  pathfinding.c \
+		  print_solution.c
 #		  multi_path.c 
 
 OBJS=		$(addprefix $(DIR_OBJ), $(SRC_BASE:.c=.o))

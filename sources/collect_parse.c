@@ -30,7 +30,7 @@ int		collect_parse_data(t_lemin *lemin, t_ants *ant)
 		}
 		if (STEP == 0 && (ret = is_room(LINE, lemin)) == TRUE)
 			stock_data_room(L_DATA, lemin);
-		else if (STEP > 0 && !(lemin->plop) && ft_strchr(LINE, '-'))
+		else if (STEP > 0 && !(lemin->room_type) && ft_strchr(LINE, '-'))
 		{
 			if ((ret = create_adjacency_matrix(&(lemin->rooms), lemin)) == FAILURE)
 				return (FAILURE);

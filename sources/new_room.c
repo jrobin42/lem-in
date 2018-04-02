@@ -19,8 +19,8 @@ static void		set_start_end(t_lemin *lemin)
 	tmp = lemin->all;
 	while (tmp->next)
 		tmp = tmp->next;
-	lemin->plop == 1 ? lemin->start = tmp : (lemin->end = tmp);
-	lemin->plop = 0;
+	lemin->room_type == 1 ? lemin->start = tmp : (lemin->end = tmp);
+	lemin->room_type = 0;
 }
 
 int		stock_data_room(char **data, t_lemin *lemin)
@@ -36,7 +36,7 @@ int		stock_data_room(char **data, t_lemin *lemin)
 	room->coord_y = ft_atoi(data[2]);
 	ft_lstadd_end(&lemin->all, ft_lstnew(room, sizeof(t_room)));
 	ft_lstadd_end(&lemin->to_print, ft_lstnew(&LINE, sizeof(char*)));
-	if (lemin->plop)
+	if (lemin->room_type)
 		set_start_end(lemin);
 	++lemin->nb_rooms;
 	return (SUCCESS);
@@ -46,15 +46,15 @@ int		is_start_end(char *line, t_lemin *lemin)
 {
 	if (ft_strequ("##start", line))
 	{
-		if (lemin->start || lemin->plop)
+		if (lemin->start || lemin->room_type)
 			return (FAILURE);
-		lemin->plop = 1;
+		lemin->room_type = 1;
 	}
 	else if (ft_strequ("##end", line))
 	{
-		if (lemin->end || lemin->plop)
+		if (lemin->end || lemin->room_type)
 			return (FAILURE);
-		lemin->plop = 2;
+		lemin->room_type = 2;
 	}
 	return (SUCCESS);
 }
@@ -99,7 +99,7 @@ int		is_room(char *line, t_lemin *lemin)
 		return (FAILURE);
 	if (ft_strchr(*L_DATA, '-'))
 	{
-		if (error_room(lemin) || lemin->plop || !lemin->start || !lemin->end)
+		if (error_room(lemin) || lemin->room_type || !lemin->start || !lemin->end)
 			return (FAILURE);
 		STEP = 1;
 		return (FALSE);
