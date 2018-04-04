@@ -6,22 +6,22 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/29 08:55:40 by jrobin            #+#    #+#             */
-/*   Updated: 2018/04/04 20:19:23 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/04/04 21:11:09 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-static void		init_tab(int *prev, int *gap, int *next_curr, int max)
+static void		init_tab(int **prev, int **gap, int **next_curr, int max)
 {
 	int		i;
 
 	i = 0;
 	while (i < max)
 	{
-		next_curr[i] = -1;
-		prev[i] = -1;
-		gap[i] = -1;
+		(*next_curr)[i] = -1;
+		(*prev)[i] = -1;
+		(*gap)[i] = -1;
 		++i;
 	}
 }
@@ -85,17 +85,20 @@ void				set_next_curr(int *next_curr, int new, int max)
 	}
 }
 
-int			find_shortest_path(int *prev, int **mat,  int max)
+int			find_shortest_path(int **prev, int **mat,  int max)
 {
 	int		i;
 	int		curr;
 	int		next;
-	int		next_curr[max];
-	int		gap[max];
+	int		*next_curr;
+	int		*gap;
 
 	i = 0;
 	curr = 0;
-	init_tab(prev, gap, next_curr, max);
+	if ((next_curr = ft_memalloc(max * sizeof(int))) == NULL
+	|| ((gap = ft_memalloc(max * sizeof(int))) == NULL))
+		exit (-1);
+	init_tab(prev, &gap, &next_curr, max);
 	while (curr < max - 1 && curr > -1)
 	{
 		next = -1;
@@ -104,7 +107,7 @@ int			find_shortest_path(int *prev, int **mat,  int max)
 				if (gap[next] == -1 || (gap[curr] + 1) < gap[next])
 				{
 					gap[next] = curr == 0 ? 1 : gap[curr] + 1;
-					prev[next] = curr;
+					(*prev)[next] = curr;
 					set_next_curr(next_curr, next, max);
 				}
 		curr = next_curr[i];
@@ -150,7 +153,6 @@ void	delete_access(int **mat, int *path, int max)
 		}
 		++j;
 	}
-	ft_printf("path[%d] = %d\n", i, path[i]);
 }
 
 void	print_soluce(int **paths, t_lemin *lemin, int nb_paths)
@@ -160,34 +162,38 @@ void	print_soluce(int **paths, t_lemin *lemin, int nb_paths)
 
 	i = 0;
 	ft_printf("PATH\n");
-	while (i < nb_paths)
+	while (i <= nb_paths)
 	{
 		j = 0;
-		while (j < lemin->nb_rooms /*&& paths[i][j] > 0*/)
+		while (j < lemin->nb_rooms/* && paths[i][j] > 0*/)
 		{
 			ft_printf("%d->", paths[i][j]);
 			++j;
 		}
+		paths[i][j] == 0 ? ft_printf("%d->", paths[i][j]) : 0;
 		ft_printf("\n");
-			ft_printf("i = %d j = %d\n", i, j);
 		++i;
 	}
 }
 
-int		path_finding(int nb_max_paths, int **mat, int *prev, t_lemin *lemin)
+int		path_finding(int nb_max_paths, int **mat, int **prev, t_lemin *lemin)
 {
 	int		index_path;
-	int		paths[nb_max_paths][lemin->nb_rooms];
-	int		*ptr;
+	int		**paths;
 
 	
+	if ((paths = ft_memalloc(nb_max_paths * sizeof(int*))) == NULL)
+		exit(-1);
+	index_path = -1;
+	while (++index_path < nb_max_paths)
+		if ((paths[index_path] = ft_memalloc(lemin->nb_rooms * sizeof(int*))) == NULL)
+			exit(-1);
 	index_path = 0;
-	ft_bzero(paths, sizeof(paths));
 	while (nb_max_paths)
 	{
 		if (find_shortest_path(prev, mat, lemin->nb_rooms) == SUCCESS)
 		{
-			save_path(paths[index_path], prev, lemin->nb_rooms);
+			save_path(paths[index_path], *prev, lemin->nb_rooms);
 			delete_access(mat, paths[index_path], lemin->nb_rooms);
 		}
 		else if (index_path == 0)
@@ -197,19 +203,19 @@ int		path_finding(int nb_max_paths, int **mat, int *prev, t_lemin *lemin)
 		++index_path;
 		--nb_max_paths;
 	}
-		ft_printf("1 - %p\n", paths);
-	ptr = *paths;
-	print_soluce(&ptr, lemin, index_path - 1);
+	print_soluce(paths, lemin, index_path - 1);
 	return (SUCCESS);
 }
 
-int		pathfinding(t_lemin *lemin, int **mat)
+int		resolve_lemin(t_lemin *lemin, int **mat)
 {
 	int		nb_max_paths;
-	int		prev[lemin->nb_rooms];
+	int		*prev;
 
+	if ((prev = ft_memalloc(lemin->nb_rooms * sizeof(int))) == NULL)
+		exit(-1);
 	if ((nb_max_paths = count_paths(mat, lemin->nb_rooms)) > 0)
-		if (path_finding(nb_max_paths, mat, prev, lemin) == SUCCESS)
+		if (path_finding(nb_max_paths, mat, &prev, lemin) == SUCCESS)
 			return (SUCCESS);
 	return (FAILURE);
 }
