@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/29 08:55:40 by jrobin            #+#    #+#             */
-/*   Updated: 2018/04/03 02:51:46 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/04/04 20:19:23 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,8 @@ int			find_shortest_path(int *prev, int **mat,  int max)
 		curr = next_curr[i];
 		++i;
 	}
-	return (curr == max - 1 && curr != -1? SUCCESS : FAILURE);
+	ft_printf("			NEW PATH\n");
+	return (curr == max - 1 && curr != -1 ? SUCCESS : FAILURE);
 }
 
 void	save_path(int *path, int *reverse_path, int max)
@@ -121,6 +122,7 @@ void	save_path(int *path, int *reverse_path, int max)
 	i = 1;
 	j = max - 1;
 	path[0] = max - 1;
+	ft_printf("FIRST chemin : %d\n", path[0]);
 	while (i < max && j > 0)
 	{
 		path[i] = reverse_path[j];
@@ -131,40 +133,60 @@ void	save_path(int *path, int *reverse_path, int max)
 	ft_printf("\n");
 }
 
-void	delete_access(int **mat, int *cell, int max)
+void	delete_access(int **mat, int *path, int max)
 {
 	int		i;
 	int		j;
 
 	i = 0;
-	(void)mat;
-	while (i < max && cell[i])
+	j = 1;
+	while (j < max && path[j] > 0)
 	{
-	ft_printf("cell = %d\n", cell[i]);
-		j = -1;
-		while (++j < max)
-			mat[i][cell[j]] = 0;
-		++i;
+		i = 0;
+		while (i < max) 
+		{
+			mat[i][path[j]] = 0;
+			++i;
+		}
+		++j;
 	}
+	ft_printf("path[%d] = %d\n", i, path[i]);
 }
 
-void	print_soluce(int **paths, t_lemin *lemin)
+void	print_soluce(int **paths, t_lemin *lemin, int nb_paths)
 {
-	(void)paths;
-	(void)lemin;
+	int		i;
+	int		j;
+
+	i = 0;
+	ft_printf("PATH\n");
+	while (i < nb_paths)
+	{
+		j = 0;
+		while (j < lemin->nb_rooms /*&& paths[i][j] > 0*/)
+		{
+			ft_printf("%d->", paths[i][j]);
+			++j;
+		}
+		ft_printf("\n");
+			ft_printf("i = %d j = %d\n", i, j);
+		++i;
+	}
 }
 
 int		path_finding(int nb_max_paths, int **mat, int *prev, t_lemin *lemin)
 {
 	int		index_path;
 	int		paths[nb_max_paths][lemin->nb_rooms];
+	int		*ptr;
 
+	
 	index_path = 0;
+	ft_bzero(paths, sizeof(paths));
 	while (nb_max_paths)
 	{
 		if (find_shortest_path(prev, mat, lemin->nb_rooms) == SUCCESS)
 		{
-		ft_printf("hayaaaa\n");
 			save_path(paths[index_path], prev, lemin->nb_rooms);
 			delete_access(mat, paths[index_path], lemin->nb_rooms);
 		}
@@ -175,7 +197,9 @@ int		path_finding(int nb_max_paths, int **mat, int *prev, t_lemin *lemin)
 		++index_path;
 		--nb_max_paths;
 	}
-	print_soluce((int**)paths, lemin);
+		ft_printf("1 - %p\n", paths);
+	ptr = *paths;
+	print_soluce(&ptr, lemin, index_path - 1);
 	return (SUCCESS);
 }
 
