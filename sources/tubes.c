@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 14:06:14 by jrobin            #+#    #+#             */
-/*   Updated: 2018/03/27 07:37:28 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/04/05 04:38:19 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ static void		put_score(t_lemin *lemin, int i, int j)
 {
 	ADJ_MTX[i][j] = 1;
 	ADJ_MTX[j][i] = 1;
-	ft_lstadd_end(&lemin->to_print, ft_lstnew(&LINE, sizeof(char*)));
 }
 
 static int		is_tube(char *line, t_lemin *lemin)
@@ -87,14 +86,14 @@ static int		create_rooms_tab(t_room ***rooms, t_lemin *lemin)
 	return (SUCCESS);
 }
 
-int				create_adjacency_matrix(t_room ***rooms, t_lemin *lemin)
+int				create_adjacency_matrix(t_room ***rooms, t_lemin *lemin, char *line)
 {
 	int		ret;
 
 	if (STEP == 1 && (create_rooms_tab(rooms, lemin) == FAILURE ||
 			create_matrix(lemin) == FAILURE))
 		return (FAILURE);
-	if ((ret = is_tube(LINE, lemin)) == FAILURE)
+	if ((ret = is_tube(line, lemin)) == FAILURE)
 		return (FAILURE);
 	return (ret == FALSE ? FALSE : 1);
 }

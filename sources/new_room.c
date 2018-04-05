@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/09 03:13:28 by jrobin            #+#    #+#             */
-/*   Updated: 2018/03/16 22:59:58 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/04/05 04:38:11 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ int		stock_data_room(char **data, t_lemin *lemin)
 	room->coord_x = ft_atoi(data[1]);
 	room->coord_y = ft_atoi(data[2]);
 	ft_lstadd_end(&lemin->all, ft_lstnew(room, sizeof(t_room)));
-	ft_lstadd_end(&lemin->to_print, ft_lstnew(&LINE, sizeof(char*)));
 	if (lemin->room_type)
 		set_start_end(lemin);
 	++lemin->nb_rooms;
@@ -70,14 +69,6 @@ int		is_command(char *line, t_lemin *lemin)
 	return (*line ? FALSE : FAILURE);
 }
 
-int		is_comment(char *line, t_lemin *lemin)
-{
-	(void)lemin;
-	if (*line && *line == '#')
-		return (TRUE);
-	return (*line ? FALSE : FAILURE);
-}
-
 int		wrong_nb_params(char **line)
 {
 	if (!line[1] || !line[2] || line[3]) 
@@ -95,7 +86,7 @@ int		arent_coord(char **line)
 int		is_room(char *line, t_lemin *lemin)
 {
 	(void)line;
-	if ((L_DATA = ft_strsplit(LINE, ' ')) == NULL || !*L_DATA || **L_DATA == 'L')
+	if ((L_DATA = ft_strsplit(line, ' ')) == NULL || !*L_DATA || **L_DATA == 'L')
 		return (FAILURE);
 	if (ft_strchr(*L_DATA, '-'))
 	{

@@ -6,44 +6,27 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 14:03:36 by jrobin            #+#    #+#             */
-/*   Updated: 2018/03/26 19:57:38 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/04/05 03:48:26 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-int		get_nb_ants(t_ants *ant, t_lemin *lemin)
+int		get_nb_ants(char **line, t_lemin *lemin)
 {
-	if (get_next_line(0, &LINE) < 1)
+	if (get_next_line(0, line) < 1)
 		return (FAILURE);
-	if (ft_isint(LINE))
+	LINE = *line;
+	if (ft_isint(*line))
 	{
-		if ((ant->nb_ants = ft_atoi(LINE)) < 1)
+		if ((lemin->nb_ants = ft_atoi(*line)) < 1)
 		{
-			free(LINE);
+			free(*line);
 			return (FAILURE);
 		}
-		lemin->to_print = ft_lstnew(&LINE, sizeof(char *));
+		lemin->to_print = ft_lstnew(*line, ft_strlen(*line));
 	}
 	else
-		return (FAILURE);
-	return (SUCCESS);
-}
-
-int		get_name_ants(t_ants *ants, t_lemin *lemin)
-{
-	(void)ants;
-	(void)lemin;
-	return (SUCCESS);
-}
-
-int		parse_ants(t_ants *ants, t_lemin *lemin)
-{
-	if (get_nb_ants(ants, lemin) == FAILURE)
-		return (FAILURE);
-
-
-	if (get_name_ants(ants, lemin) == FAILURE)
 		return (FAILURE);
 	return (SUCCESS);
 }
