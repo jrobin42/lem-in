@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/09 03:13:28 by jrobin            #+#    #+#             */
-/*   Updated: 2018/04/05 04:38:11 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/04/05 06:03:47 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,12 @@ int		is_command(char *line, t_lemin *lemin)
 {
 	if (ft_strnequ("##", line, 2))
 	{
-		if (is_start_end(line, lemin) == FAILURE)
+		if (is_start_end(line, lemin) == FAILURE
+		&& (ft_memcpy(lemin->error_type, "BAD START OR END", 19)))
 			return (FAILURE);
 		return (TRUE);
 	}
-	return (*line ? FALSE : FAILURE);
+	return (FALSE);
 }
 
 int		wrong_nb_params(char **line)
@@ -83,19 +84,22 @@ int		arent_coord(char **line)
 	return (FALSE);
 }
 
-int		is_room(char *line, t_lemin *lemin)
+int		is_room(char *line, t_lemin *l)
 {
-	(void)line;
-	if ((L_DATA = ft_strsplit(line, ' ')) == NULL || !*L_DATA || **L_DATA == 'L')
+	if ((l->data = ft_strsplit(line, ' ')) == NULL || !*l->data || **l->data == 'L')
 		return (FAILURE);
-	if (ft_strchr(*L_DATA, '-'))
+	if (ft_strchr(*l->data, '-'))
 	{
-		if (error_room(lemin) || lemin->room_type || !lemin->start || !lemin->end)
+		if (error_room(l) && ft_memcpy(l->error_type, "SAME COORD OR NAME", 18))
 			return (FAILURE);
-		STEP = 1;
+		if ((!l->start || !l->end)
+		&& ft_memcpy(l->error_type, "MISSING START OR END", 20))
+			return (FAILURE);
+		l->step = 1;
 		return (FALSE);
 	}
-	if (wrong_nb_params(L_DATA) || arent_coord(L_DATA + 1))
+	if ((wrong_nb_params(l->data) || arent_coord(l->data + 1))
+	&& ft_memcpy(l->error_type, "BAD ROOM PARAMETERS", 19))
 		return (FAILURE);
 	return (TRUE);
 }

@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 17:30:34 by jrobin            #+#    #+#             */
-/*   Updated: 2018/04/03 01:12:17 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/04/05 04:32:33 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,17 @@
 int		main(void)
 {
 	t_lemin		lemin;
-	t_ants		ant;
-//	int			max_nb_paths;
 
-	ft_bzero(&lemin, sizeof(t_lemin));
-	if (collect_parse_data(&lemin, &ant) == FAILURE)
-		ft_printf("ERROR\n");
-//	else if (resolve_lemin(&lemin, lemin.adj_mtx, &path) == FAILURE)
-	else if (pathfinding(&lemin, lemin.adj_mtx) == FAILURE)
-		ft_printf("ERROR\n");
-//	else
-//		multi_path(&ant, ant.nb_ants, &lemin, &path);
-	//	free_lemin();
-//	else
-//		print_solution(&ant, path, &lemin);
+	ft_bzero(&lemin, sizeof(lemin));
+	if (collect_parse_data(&lemin) == FAILURE)
+	{
+		ft_printf("ERROR : WRONG INPUT\n%s\n", lemin.error_type);
+		return (1);
+	}
+	if (resolve_lemin(&lemin, lemin.adj_mtx) == FAILURE)
+	{
+		ft_printf("ERROR : NO SOLUTION\n");
+		return (1);
+	}
 	return (0);
 }
-
-/*Checker les cas d'erreurs evidemment*/
