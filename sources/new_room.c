@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/09 03:13:28 by jrobin            #+#    #+#             */
-/*   Updated: 2018/04/05 06:03:47 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/04/05 06:38:19 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,13 @@ int		arent_coord(char **line)
 
 int		is_room(char *line, t_lemin *l)
 {
-	if ((l->data = ft_strsplit(line, ' ')) == NULL || !*l->data || **l->data == 'L')
+	if ((l->data = ft_strsplit(line, ' ')) == NULL
+	|| !*l->data || **l->data == 'L')
+	{
+		if (**l->data == 'L')
+			ft_memcpy(l->error_type, "ROOM NAME MUST NOT BEGIN BY AN L", 32);
 		return (FAILURE);
+	}
 	if (ft_strchr(*l->data, '-'))
 	{
 		if (error_room(l) && ft_memcpy(l->error_type, "SAME COORD OR NAME", 18))
