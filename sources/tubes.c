@@ -6,94 +6,86 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 14:06:14 by jrobin            #+#    #+#             */
-/*   Updated: 2018/04/05 04:38:19 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/04/05 07:04:09 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-static void		put_score(t_lemin *lemin, int i, int j)
+static void		put_score(t_lemin *l, int i, int j)
 {
-	ADJ_MTX[i][j] = 1;
-	ADJ_MTX[j][i] = 1;
+	l->adj_mtx[i][j] = 1;
+	l->adj_mtx[j][i] = 1;
 }
 
-static int		is_tube(char *line, t_lemin *lemin)
+static int		is_tube(char *line, t_lemin *l)
 {
 	int		i;
 	int		j;
 	char	**tubes;
 
-	i = 0;
 	if ((tubes = ft_strsplit(line, '-')) == NULL)
 		return (FAILURE);
+	i = -1;
 	if (tubes[0] && tubes[1] && !tubes[2])
-		while (i < lemin->nb_rooms)
-		{
-			if (ft_strequ(tubes[0], (lemin->rooms)[i]->name))
-			{
-				j = 0;
-				while (j < lemin->nb_rooms)
-				{
-					if (ft_strequ(tubes[1], (lemin->rooms)[j]->name))
+		while (++i < l->nb_rooms)
+			if (ft_strequ(tubes[0], (l->rooms)[i]->name) && (j = -1))
+				while (++j < l->nb_rooms)
+					if (ft_strequ(tubes[1], (l->rooms)[j]->name))
 					{
-						put_score(lemin, i, j);
+						put_score(l, i, j);
 						return (TRUE);
 					}
-					++j;
-				}
-			}
-			++i;
-		}
+	l->step = 42;
 	return (FALSE);
 }
 
-static int		create_matrix(t_lemin *lemin)
+static void		create_matrix(t_lemin *l)
 {
 	int		i;
 
 	i = 0;
-	if ((ADJ_MTX = ft_memalloc(lemin->nb_rooms * sizeof(int*))) == NULL)
-		return (FAILURE);
-	while (i < lemin->nb_rooms)
+	if ((l->adj_mtx = ft_memalloc(l->nb_rooms * sizeof(int*))) == NULL)
+		exit(-1);
+	while (i < l->nb_rooms)
 	{
-		if ((ADJ_MTX[i] = ft_memalloc(lemin->nb_rooms * sizeof(int))) == NULL)
-			return (FAILURE);
+		if ((l->adj_mtx[i] = ft_memalloc(l->nb_rooms * sizeof(int))) == NULL)
+			exit(-1);
 		++i;
 	}
-	STEP = 2;
-	return (SUCCESS);
+	l->step = 2;
 }
 
-static int		create_rooms_tab(t_room ***rooms, t_lemin *lemin)
+static void		create_rooms_tab(t_room ***rooms, t_lemin *l)
 {
 	int		i;
 	t_room	**tmp;
 
 	i = 0;
-	if ((tmp = ft_memalloc((lemin->nb_rooms + 1) * sizeof(t_room*))) == NULL)
-		return (FAILURE);
-	tmp[0] = lemin->start->content;
-	tmp[lemin->nb_rooms - 1] = lemin->end->content;
-	while (lemin->all)
+	if ((tmp = ft_memalloc((l->nb_rooms + 1) * sizeof(t_room*))) == NULL)
+		exit(-1);
+	tmp[0] = l->start->content;
+	tmp[l->nb_rooms - 1] = l->end->content;
+	while (l->all)
 	{
-		if (((t_room*)lemin->all->content) != lemin->start->content &&
-				((t_room*)lemin->all->content) != lemin->end->content)
-			tmp[++i] = (t_room*)lemin->all->content;
-		lemin->all = lemin->all->next;
+		if (((t_room*)l->all->content) != l->start->content &&
+				((t_room*)l->all->content) != l->end->content)
+			tmp[++i] = (t_room*)l->all->content;
+		l->all = l->all->next;
 	}
 	*rooms = tmp;
-	return (SUCCESS);
 }
 
-int				create_adjacency_matrix(t_room ***rooms, t_lemin *lemin, char *line)
+int				create_adjacency_matrix(t_room ***rooms, t_lemin *l, char *line)
 {
 	int		ret;
 
-	if (STEP == 1 && (create_rooms_tab(rooms, lemin) == FAILURE ||
-			create_matrix(lemin) == FAILURE))
-		return (FAILURE);
-	if ((ret = is_tube(line, lemin)) == FAILURE)
+	if (l->step == 1)
+	{
+		create_rooms_tab(rooms, l);
+		create_matrix(l);
+	}
+	if ((ret = is_tube(line, l)) == FAILURE)
 		return (FAILURE);
 	return (ret == FALSE ? FALSE : 1);
 }
