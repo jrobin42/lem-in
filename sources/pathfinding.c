@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/29 08:55:40 by jrobin            #+#    #+#             */
-/*   Updated: 2018/04/04 21:11:09 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/04/05 04:27:29 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,22 +155,27 @@ void	delete_access(int **mat, int *path, int max)
 	}
 }
 
-void	print_soluce(int **paths, t_lemin *lemin, int nb_paths)
+void	print_soluce(int **paths, t_lemin *l, int nb_paths)
 {
 	int		i;
 	int		j;
 
 	i = 0;
+	while (l->to_print)
+	{
+		ft_printf("%s\n", (char*)l->to_print->content);
+		l->to_print = l->to_print->next;
+	}
 	ft_printf("PATH\n");
 	while (i <= nb_paths)
 	{
 		j = 0;
-		while (j < lemin->nb_rooms/* && paths[i][j] > 0*/)
+		while (j < l->nb_rooms && paths[i][j] > 0)
 		{
 			ft_printf("%d->", paths[i][j]);
 			++j;
 		}
-		paths[i][j] == 0 ? ft_printf("%d->", paths[i][j]) : 0;
+		paths[i][j] == 0 ? ft_printf("%d", paths[i][j]) : 0;
 		ft_printf("\n");
 		++i;
 	}
