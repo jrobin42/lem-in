@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 14:03:36 by jrobin            #+#    #+#             */
-/*   Updated: 2018/04/05 05:56:28 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/04/05 06:50:06 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,7 @@
 int		get_nb_ants(char **line, t_lemin *l)
 {
 	if (get_next_line(0, line) < 1)
-	{
 		return (FAILURE);
-	}
 	if (ft_isint(*line))
 	{
 		if ((l->nb_ants = ft_atoi(*line)) < 1)
@@ -26,7 +24,7 @@ int		get_nb_ants(char **line, t_lemin *l)
 			free(*line);
 			return (FAILURE);
 		}
-		l->to_print = ft_lstnew(*line, ft_strlen(*line));
+		l->to_print = ft_lstnew(*line, ft_strlen(*line) + 1);
 	}
 	else
 	{
