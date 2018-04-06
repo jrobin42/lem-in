@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/09 03:13:28 by jrobin            #+#    #+#             */
-/*   Updated: 2018/04/05 06:38:19 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/04/06 05:50:51 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,12 @@ static void		set_start_end(t_lemin *lemin)
 	tmp = lemin->all;
 	while (tmp->next)
 		tmp = tmp->next;
-	lemin->room_type == 1 ? lemin->start = tmp : (lemin->end = tmp);
+	lemin->room_type == 1 ? lemin->start = tmp : 0;
+	lemin->room_type == 2 ? lemin->end = tmp : 0;
 	lemin->room_type = 0;
 }
 
-int		stock_data_room(char **data, t_lemin *lemin)
+int				stock_data_room(char **data, t_lemin *lemin)
 {
 	t_room		*room;
 
@@ -41,7 +42,7 @@ int		stock_data_room(char **data, t_lemin *lemin)
 	return (SUCCESS);
 }
 
-int		is_start_end(char *line, t_lemin *lemin)
+int				is_start_end(char *line, t_lemin *lemin)
 {
 	if (ft_strequ("##start", line))
 	{
@@ -58,7 +59,7 @@ int		is_start_end(char *line, t_lemin *lemin)
 	return (SUCCESS);
 }
 
-int		is_command(char *line, t_lemin *lemin)
+int				is_command(char *line, t_lemin *lemin)
 {
 	if (ft_strnequ("##", line, 2))
 	{
@@ -70,21 +71,7 @@ int		is_command(char *line, t_lemin *lemin)
 	return (FALSE);
 }
 
-int		wrong_nb_params(char **line)
-{
-	if (!line[1] || !line[2] || line[3]) 
-		return (TRUE);
-	return (FALSE);
-}
-
-int		arent_coord(char **line)
-{
-	if (!ft_isint(line[0]) || !ft_isint(line[1])) 
-		return (TRUE);
-	return (FALSE);
-}
-
-int		is_room(char *line, t_lemin *l)
+int				is_room(char *line, t_lemin *l)
 {
 	if ((l->data = ft_strsplit(line, ' ')) == NULL
 	|| !*l->data || **l->data == 'L')

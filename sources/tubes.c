@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 14:06:14 by jrobin            #+#    #+#             */
-/*   Updated: 2018/04/05 07:04:09 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/04/06 02:30:37 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,9 @@ static void		create_rooms_tab(t_room ***rooms, t_lemin *l)
 	{
 		if (((t_room*)l->all->content) != l->start->content &&
 				((t_room*)l->all->content) != l->end->content)
+		{
 			tmp[++i] = (t_room*)l->all->content;
+		}
 		l->all = l->all->next;
 	}
 	*rooms = tmp;

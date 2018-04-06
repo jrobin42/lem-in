@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/10 20:21:14 by jrobin            #+#    #+#             */
-/*   Updated: 2018/03/25 23:35:53 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/04/06 05:48:53 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,13 @@ int		same_coord_or_name(t_list *data)
 		move = data->next;
 		while (move)
 		{
-			if (((t_room*)data->content)->coord_x == ((t_room*)move->content)->coord_x
-					&& ((t_room*)data->content)->coord_y == ((t_room*)move->content)->coord_y)
+			if (((t_room*)data->content)->coord_x
+			== ((t_room*)move->content)->coord_x
+			&& ((t_room*)data->content)->coord_y
+			== ((t_room*)move->content)->coord_y)
 				return (TRUE);
-			if (ft_strequ(((t_room*)data->content)->name, ((t_room*)move->content)->name))
+			if (ft_strequ(((t_room*)data->content)->name,
+			((t_room*)move->content)->name))
 				return (TRUE);
 			move = move->next;
 		}
@@ -46,4 +49,18 @@ int		error_room(t_lemin *lemin)
 		tmp = tmp->next;
 	}
 	return (SUCCESS);
+}
+
+int		wrong_nb_params(char **line)
+{
+	if (!line[1] || !line[2] || line[3])
+		return (TRUE);
+	return (FALSE);
+}
+
+int		arent_coord(char **line)
+{
+	if (!ft_isint(line[0]) || !ft_isint(line[1]))
+		return (TRUE);
+	return (FALSE);
 }
