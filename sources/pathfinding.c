@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/29 08:55:40 by jrobin            #+#    #+#             */
-/*   Updated: 2018/04/06 05:12:00 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/04/06 05:21:34 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ static int		count_paths(int **mat, int max)
 			++count2;
 		++i;
 	}
-	ft_printf("%d, %d\n", count1, count2);
 	return (count1 < count2 ? count1 : count2);
 }
 
@@ -116,7 +115,7 @@ int			find_shortest_path(int **prev, int **mat,  int max)
 	return (curr == max - 1 && curr != -1 ? SUCCESS : FAILURE);
 }
 
-void	save_path(int **path, int *prev, int max, int **len_paths)
+int		save_path(int **path, int *prev, int max)
 {
 	int		i;
 	int		j;
@@ -124,18 +123,17 @@ void	save_path(int **path, int *prev, int max, int **len_paths)
 	i = 1;
 	j = max - 1;
 	(*path)[0] = max - 1;
-	ft_printf("path[%d] = %d\n", 0, (*path)[0]);
+//	ft_printf("path[%d] = %d\n", 0, (*path)[0]);
 	while (prev[j])
 	{
 		(*path)[i] = prev[j];
-		ft_printf("path[%d] = %d\n", i, (*path)[i]);
+//		ft_printf("path[%d] = %d\n", i, (*path)[i]);
 		j = prev[j];
 		++i;
 	}
 	(*path)[i] = prev[j];
-	**len_paths = i;
-	//	(*path)[max - 1] = i + 1;
-	ft_printf("len path = %d\n", **len_paths);
+	return (i);
+//	ft_printf("len path = %d\n", **len_paths);
 }
 
 void	delete_access(int **mat, int *path, int max)
@@ -266,7 +264,7 @@ int		path_finding(int nb_max_paths, t_lemin *l, int **paths, int **len_paths)
 	{
 		if (find_shortest_path(&prev, l->adj_mtx, l->nb_rooms) == SUCCESS)
 		{
-			save_path(&(paths[index_path]), prev, l->nb_rooms, &(len_paths[index_path]));
+			(*len_paths)[index_path] = save_path(&(paths[index_path]), prev, l->nb_rooms);
 			delete_access(l->adj_mtx, paths[index_path], l->nb_rooms);
 		}
 		else if (index_path == 0)
