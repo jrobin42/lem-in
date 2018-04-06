@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/29 08:55:40 by jrobin            #+#    #+#             */
-/*   Updated: 2018/04/05 07:50:41 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/04/06 05:12:00 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int			find_shortest_path(int **prev, int **mat,  int max)
 	i = 0;
 	curr = 0;
 	if ((next_curr = ft_memalloc(max * sizeof(int))) == NULL
-	|| ((gap = ft_memalloc(max * sizeof(int))) == NULL))
+			|| ((gap = ft_memalloc(max * sizeof(int))) == NULL))
 		exit (-1);
 	init_tab(prev, &gap, &next_curr, max);
 	while (curr < max - 1 && curr > -1)
@@ -116,28 +116,26 @@ int			find_shortest_path(int **prev, int **mat,  int max)
 	return (curr == max - 1 && curr != -1 ? SUCCESS : FAILURE);
 }
 
-void	save_path(int *path, int *reverse_path, int max, int **len_paths)
+void	save_path(int **path, int *prev, int max, int **len_paths)
 {
 	int		i;
 	int		j;
 
 	i = 1;
 	j = max - 1;
-	path[0] = max - 1;
-	ft_printf("chemin : %d\n", path[0]);
-	while (i < max && j > 0)
+	(*path)[0] = max - 1;
+	ft_printf("path[%d] = %d\n", 0, (*path)[0]);
+	while (prev[j])
 	{
-		path[i] = reverse_path[j];
-		j = reverse_path[j];
-		ft_printf("chemin : %d\n", path[i]);
+		(*path)[i] = prev[j];
+		ft_printf("path[%d] = %d\n", i, (*path)[i]);
+		j = prev[j];
 		++i;
 	}
-	j = 0;
-	while ((*len_paths)[j] != 0)
-		++j;
-	(*len_paths)[j] = i;
-	ft_printf("\t len chemin : %d\n", (*len_paths)[j]);
-	ft_printf("\n");
+	(*path)[i] = prev[j];
+	**len_paths = i;
+	//	(*path)[max - 1] = i + 1;
+	ft_printf("len path = %d\n", **len_paths);
 }
 
 void	delete_access(int **mat, int *path, int max)
@@ -159,14 +157,13 @@ void	delete_access(int **mat, int *path, int max)
 	}
 }
 
-void	print_soluce(int **paths, t_lemin *l, int nb_paths)
+void	print_soluce(int **paths, t_lemin *l, int nb_paths, int *len_paths)
 {
 	int		i;
 	int		j;
+	int		*tmp;
 
-(void)nb_paths;
-(void)paths;
-	i = 0;
+	tmp = *paths;
 	ft_printf("-------------TO PRINT LEMIN------------\n");
 	while (l->to_print)
 	{
@@ -175,28 +172,81 @@ void	print_soluce(int **paths, t_lemin *l, int nb_paths)
 		ft_printf("%s\n", (char*)l->to_print->content);
 		l->to_print = l->to_print->next;
 	}
+	i = -1;
+	while (++i < l->nb_rooms)
+		ft_printf("%s->", l->rooms[i]->name);
+
+	i = 0;	
 	ft_printf("PATH\n");
-	while (i <= nb_paths)
+	j = -1;
+	(void)nb_paths;
+	while (++j <= *len_paths)
 	{
-		j = 0;
-		while (j < l->nb_rooms && paths[i][j] > 0)
-		{
-			ft_printf("%d->", paths[i][j]);
-			++j;
-		}
-		paths[i][j] == 0 ? ft_printf("%d", paths[i][j]) : 0;
-		ft_printf("\n");
-		++i;
+		ft_printf(" TMP %s(%d)->", l->rooms[tmp[j]]->name, l->rooms[tmp[j]]->ant);
 	}
+	
+	l->rooms[0]->ant = l->nb_ants;
+	ft_printf("\n\n{%d}\n\n", l->rooms[0]->ant);
+	j = 0;
+
+
+
+	int nb = 0;
+
+
+
+
+	while (nb < l->nb_ants)
+	{
+		i = *len_paths;
+		while (i > 0)
+		{
+			if (l->rooms[i]->ant)
+				ft_printf("L%d-%s ",  l->rooms[i]->ant, l->rooms[i]->name);
+			--i;
+		}
+		ft_printf("\n");
+		i = 0;
+		while (i < *len_paths)
+		{
+			if (i == 0)
+			{
+				if (l->rooms[tmp[1]]->ant > 0 && ++nb)
+				{
+					l->rooms[tmp[0]]->ant = l->rooms[tmp[1]]->ant;
+					l->rooms[tmp[1]]->ant = 0;
+				}
+			}
+			else if (i == *len_paths - 1 && l->rooms[tmp[i]]->ant == 0 && l->rooms[0]->ant > 0)
+			{
+				l->rooms[tmp[i]]->ant = l->nb_ants - l->rooms[0]->ant + 1;
+				l->rooms[0]->ant -= 1;
+			}
+			else if (l->rooms[tmp[i]]->ant == 0)
+			{
+				l->rooms[tmp[i]]->ant = l->rooms[tmp[i + 1]]->ant;
+				l->rooms[tmp[i + 1]]->ant = 0;
+			}
+			++i;
+		}
+	}
+		i = *len_paths;
+		while (i > 0)
+		{
+			if (l->rooms[i]->ant)
+				ft_printf("L%d-%s ",  l->rooms[i]->ant, l->rooms[i]->name);
+			--i;
+		}
+		ft_printf("\n");
 }
 
 static void		init_paths_tab(int **len_paths, int ***paths, int nb_max_paths,
-								t_lemin *lemin)
+		t_lemin *lemin)
 {
 	int		i;
 
 	if ((*paths = ft_memalloc(nb_max_paths * sizeof(int*))) == NULL
-	|| (*len_paths = ft_memalloc(nb_max_paths * sizeof(int*))) == NULL)
+			|| (*len_paths = ft_memalloc(nb_max_paths * sizeof(int*))) == NULL)
 		exit(-1);
 	i = -1;
 	while (++i < nb_max_paths)
@@ -216,7 +266,7 @@ int		path_finding(int nb_max_paths, t_lemin *l, int **paths, int **len_paths)
 	{
 		if (find_shortest_path(&prev, l->adj_mtx, l->nb_rooms) == SUCCESS)
 		{
-			save_path(paths[index_path], prev, l->nb_rooms, len_paths);
+			save_path(&(paths[index_path]), prev, l->nb_rooms, &(len_paths[index_path]));
 			delete_access(l->adj_mtx, paths[index_path], l->nb_rooms);
 		}
 		else if (index_path == 0)
@@ -226,7 +276,7 @@ int		path_finding(int nb_max_paths, t_lemin *l, int **paths, int **len_paths)
 		++index_path;
 		--nb_max_paths;
 	}
-	print_soluce(paths, l, index_path - 1);
+	print_soluce(paths, l, index_path, *len_paths);
 	return (SUCCESS);
 }
 
