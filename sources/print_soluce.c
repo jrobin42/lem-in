@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/06 05:53:37 by jrobin            #+#    #+#             */
-/*   Updated: 2018/04/06 06:08:46 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/04/06 06:59:48 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,16 @@ static void			print_input(t_list *to_print, int step)
 	}
 }
 
-static void			print_curr_state(t_room **rooms, int len_paths)
+static void			print_curr_state(t_room **r, int *t, int len_path)
 {
 	int		i;
 
-	i = len_paths;
-	while (i > 0)
+	i = 0;
+	while (i < len_path)
 	{
-		if (rooms[i]->ant)
-			ft_printf("L%d-%s ", rooms[i]->ant, rooms[i]->name);
-		--i;
+		if (r[t[i]]->ant)
+			ft_printf("L%d-%s ", r[t[i]]->ant, r[t[i]]->name);
+		++i;
 	}
 	ft_printf("\n");
 }
@@ -45,15 +45,22 @@ void				print_soluce(int **paths, t_lemin *l, int nb_paths,
 	int		*tmp;
 	t_room	**r;
 
-	nb = 0;
+	tmp = paths[0];
 	r = l->rooms;
+	i = 0;
+	while (i < *len_p - 1)
+	{
+		ft_printf("%s->", r[i]->name);
+		++i;
+	}
+	ft_printf("%s\n", r[i]->name);
+	nb = 0;
 	(void)nb_paths;
-	tmp = *paths;
 	print_input(l->to_print, l->step);
 	r[0]->ant = l->nb_ants;
 	while (nb < l->nb_ants)
 	{
-		print_curr_state(r, *len_p);
+		print_curr_state(r, tmp, *len_p);
 		i = -1;
 		while (++i < *len_p)
 			if (i == 0 && r[tmp[1]]->ant > 0 && ++nb)
@@ -66,12 +73,12 @@ void				print_soluce(int **paths, t_lemin *l, int nb_paths,
 				r[tmp[i]]->ant = l->nb_ants - r[tmp[i + 1]]->ant + 1;
 				r[tmp[i + 1]]->ant -= 1;
 			}
-			else if (r[tmp[i]]->ant == 0)
+			else if (r[tmp[i]]->ant == 0 && r[tmp[i + 1]]->ant)
 			{
 				r[tmp[i]]->ant = r[tmp[i + 1]]->ant;
 				r[tmp[i + 1]]->ant = 0;
 			}
 		++i;
 	}
-	print_curr_state(r, *len_p);
+	print_curr_state(r, tmp, *len_p);
 }
