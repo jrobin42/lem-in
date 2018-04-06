@@ -6,7 +6,7 @@
 #    By: jrobin <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/11 19:28:47 by jrobin            #+#    #+#              #
-#    Updated: 2018/03/29 03:49:32 by jrobin           ###   ########.fr        #
+#    Updated: 2018/04/06 02:02:55 by jrobin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ LIB =		$(PATH_LIB)$(NAME_LIB)
 PATH_INC=	includes/
 
 CC=			gcc
-FLAGS=		-Wall -Wextra -Werror -g#-fsanitize=address
+FLAGS=		-Wall -Wextra -Werror -g -fsanitize=address
 
 DIR_SRC:=	sources/
 DIR_OBJ:=	obj/
@@ -31,8 +31,6 @@ SRC_BASE= main.c \
 		  ants.c \
 		  tubes.c \
 		  pathfinding.c \
-		  print_solution.c
-#		  multi_path.c 
 
 OBJS=		$(addprefix $(DIR_OBJ), $(SRC_BASE:.c=.o))
 
