@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/29 08:55:40 by jrobin            #+#    #+#             */
-/*   Updated: 2018/04/06 06:19:35 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/04/06 07:01:18 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,9 @@ static int		save_path(int **path, int *prev, int max)
 	i = 1;
 	j = max - 1;
 	(*path)[0] = max - 1;
-	ft_printf("path[%d] = %d\n", 0, (*path)[0]);
 	while (prev[j])
 	{
 		(*path)[i] = prev[j];
-		ft_printf("path[%d] = %d\n", i, (*path)[i]);
 		j = prev[j];
 		++i;
 	}
