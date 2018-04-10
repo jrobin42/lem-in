@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/06 05:53:37 by jrobin            #+#    #+#             */
-/*   Updated: 2018/04/10 03:23:25 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/04/10 04:00:56 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,19 +52,16 @@ void				usefull_paths(int **ants_for_each, int nb_ants, int *len_p,
 		{
 				++(*ants_for_each)[i];
 				++placed_ants;
-ft_printf("i = %d len_p = %d ant_for_each = %d\n", i, len_p[i], (*ants_for_each)[i]);
 		}
 		if (i + 1 == nb_paths)
 		{
 			++(*ants_for_each)[i];
 			++placed_ants;
-			i = 0;
 		}
-		else
-		{
-			++i;
-		}
+		i = i + 1 == nb_paths ? 0 : i + 1;
 	}
+
+	/*Aff nb for each path !*/
 	i = 0;
 	while (i < nb_paths)
 	{
