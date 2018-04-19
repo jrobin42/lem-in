@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 17:42:01 by jrobin            #+#    #+#             */
-/*   Updated: 2018/04/20 01:02:43 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/04/20 01:39:38 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,9 @@ int		collect_parse_data(t_lemin *l, char *line)
 		else if (l->step > 0)
 		{
 			if ((ret = create_adjacency_matrix(&(l->rooms), l, line)) == FALSE)
+			{
 				break ;
+			}
 		}
 		else
 		{
@@ -51,6 +53,6 @@ int		collect_parse_data(t_lemin *l, char *line)
 			break ;
 		}
 	}
-	ft_strdel(&line);
+				ft_strdel(&line);
 	return (ret == FAILURE ? FAILURE : SUCCESS);
 }
