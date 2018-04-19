@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/29 08:55:40 by jrobin            #+#    #+#             */
-/*   Updated: 2018/04/06 07:01:18 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/04/19 16:50:52 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ static int		find_shortest_path(int **prev, int **mat, int max)
 				}
 		curr = next_curr[i++];
 	}
+//	free(next_curr);
+//	free(gap);
 	return (curr == max - 1 && curr != -1 ? SUCCESS : FAILURE);
 }
 
@@ -97,8 +99,23 @@ int				path_finding(int nb_max_paths, t_lemin *l, int **paths,
 		++index_path;
 		--nb_max_paths;
 	}
+	//free(prev);
 	print_soluce(paths, l, index_path, *len_paths);
 	return (SUCCESS);
+}
+
+void			free_resolve_lemin(int n, int **paths, int *len_paths)
+{
+	int		i;
+
+	i = 0;
+	while (i < n)
+	{
+		free(paths[i]);
+		++i;
+	}
+	free(paths);
+	free(len_paths);
 }
 
 int				resolve_lemin(t_lemin *lemin, int **mat)
@@ -109,9 +126,15 @@ int				resolve_lemin(t_lemin *lemin, int **mat)
 
 	if ((nb_max_paths = count_paths(mat, lemin->nb_rooms)) > 0)
 	{
+	ft_printf("NB PATHS %d\n", nb_max_paths);
 		init_paths_tab(&len_paths, &paths, nb_max_paths, lemin);
 		if (path_finding(nb_max_paths, lemin, paths, &len_paths) == SUCCESS)
+		{
+		//	free_resolve_lemin(nb_max_paths, paths, len_paths);
 			return (SUCCESS);
+		}
+		free_resolve_lemin(nb_max_paths, paths, len_paths);
 	}
+	ft_printf("END PATH : NB PATHS %d\n", nb_max_paths);
 	return (FAILURE);
 }

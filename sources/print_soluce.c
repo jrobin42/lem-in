@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/06 05:53:37 by jrobin            #+#    #+#             */
-/*   Updated: 2018/04/10 05:16:34 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/04/11 18:33:41 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static void			print_input(t_list *to_print, int step)
 		ft_printf("%s\n", (char*)to_print->content);
 		to_print = to_print->next;
 	}
+	ft_printf("\n");
 }
 
 static void			print_curr_state(t_room **r, int *t, int len_path, int nb_paths)
@@ -64,13 +65,12 @@ void				usefull_paths(int **ants_for_each, int nb_ants, int *len_p,
 	while (i < *nb_paths && (*ants_for_each)[i])
 		++i;
 	*nb_paths = i;
-	ft_printf("nb paths ======= %d i =%d\n", *nb_paths, i);
 
 	/*Aff nb for each path !*/
 	i = 0;
 	while (i < *nb_paths)
 	{
-		ft_printf("Nb ants for path %d = %d\n", i, (*ants_for_each)[i]);
+//		ft_printf("Nb ants for path %d = %d\n", i, (*ants_for_each)[i]);
 		++i;
 	}
 }
@@ -130,4 +130,11 @@ void				print_soluce(int **paths, t_lemin *l, int nb_paths,
 		}
 		ft_printf("\n");
 	}
-}
+	free(ants_for_each);
+/*	i = -1;
+	while (++i < l->nb_rooms)
+	{
+		free(l->rooms[i]->name);
+		free(l->rooms[i]);
+	}
+*/}
