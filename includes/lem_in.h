@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 16:49:02 by jrobin            #+#    #+#             */
-/*   Updated: 2018/04/06 06:12:38 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/04/19 18:51:52 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ typedef struct		s_path
 typedef struct		s_lemin
 {
 	char			error_type[SIZE_ERROR];
-	char			*line;
+//	char			*line;
 	char			**data;
 	int				step;
 	int				nb_rooms;
@@ -67,7 +67,7 @@ typedef struct		s_lemin
 	int				nb_ants;
 }					t_lemin;
 
-int					collect_parse_data(t_lemin *lemin);
+int					collect_parse_data(t_lemin *lemin, char *line);
 int					is_room(char *line, t_lemin *lemin);
 int					is_command(char *line, t_lemin *lemin);
 int					is_comment(char *line, t_lemin *lemin);
