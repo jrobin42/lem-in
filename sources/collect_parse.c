@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 17:42:01 by jrobin            #+#    #+#             */
-/*   Updated: 2018/04/20 00:51:39 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/04/20 01:02:43 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,7 @@ int		collect_parse_data(t_lemin *l, char *line)
 		{
 			ft_printf("cholera, {%s}\n", line);
 			ft_strdel(&line);
-			ft_strdel(l->data);
-			free(l->data);
+			ft_free_tab((void***)&(l->data));
 			break ;
 		}
 	}
