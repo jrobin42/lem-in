@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 17:30:34 by jrobin            #+#    #+#             */
-/*   Updated: 2018/04/20 17:20:40 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/04/20 18:56:17 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,40 +14,23 @@
 
 void	del(void *s, size_t n)
 {
-	ft_strdel((char**)&s);
+	ft_strdel((char**)&(((t_room*)s)->name));
+	ft_memdel(&s);
 	(void)n;
 }
 
 void	free_lemin(t_lemin l, int nb)
 {
+	t_list	*tmp;
 
-	if (nb == 1)
+	tmp = l.all;
+	if (nb < 3)
 		ft_lstdel(&(l.all), &del);
-/*		while (l.all)
-		{
-			ft_strdel(&((t_room*)l.all->content)->name);
-			free(((t_room*)l.all->content));
-			prev = l.all;
-			l.all = l.all->next;
-			free(prev);
-		}
-*/	else
+	else
+	{
 		ft_free_tab((void***)&(l.data));
-	/*	if (nb > 1)
-		{
-		free(l.end);	
-		free(l.start);	
-		}
-		*/	free(l.rooms);
-	/*	while (l.to_print)
-		{
-		ft_printf("{%s}\n", l.to_print->content);
-		ft_strdel((char**)&(l.to_print->content));
-		prev = l.to_print;
-		free(prev);
-		l.to_print = l.to_print->next;
-		}
-		*/	(void)nb;
+	}
+	free(l.rooms);
 }
 
 int		main(void)
@@ -71,6 +54,5 @@ int		main(void)
 		return (1);
 	}
 	free_lemin(lemin, 3);
-	//	ft_printf("END {%s}\n", lemin.end->content);
 	return (0);
 }

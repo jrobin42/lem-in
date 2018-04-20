@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 14:06:14 by jrobin            #+#    #+#             */
-/*   Updated: 2018/04/20 17:04:34 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/04/20 17:47:17 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ static void		create_rooms_tab(t_room ***rooms, t_lemin *l)
 
 	i = 0;
 	beg = l->all;
+	ft_printf("ALL CONTENT %s\n", ((t_room*)l->all->content)->name);
 	if ((*rooms = ft_memalloc((l->nb_rooms + 1) * sizeof(t_room*))) == NULL)
 		exit(-1);
 	tmp = *rooms;

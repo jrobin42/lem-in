@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/29 08:55:40 by jrobin            #+#    #+#             */
-/*   Updated: 2018/04/20 16:10:48 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/04/20 18:55:26 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ static int		find_shortest_path(int **prev, int **mat, int max)
 				}
 		curr = next_curr[i++];
 	}
-	free(next_curr);
-	free(gap);
+	ft_memdel((void**)&next_curr);
+	ft_memdel((void**)&gap);
 	return (curr == max - 1 && curr != -1 ? SUCCESS : FAILURE);
 }
 
@@ -94,7 +94,7 @@ int				path_finding(int nb_max_paths, t_lemin *l, int **paths,
 		}
 		else if (index_path == 0)
 		{
-			free(prev);
+			ft_memdel((void**)&prev);
 			return (FAILURE);
 		}
 		else
@@ -102,7 +102,7 @@ int				path_finding(int nb_max_paths, t_lemin *l, int **paths,
 		++index_path;
 		--nb_max_paths;
 	}
-	free(prev);
+	ft_memdel((void**)&prev);
 	print_soluce(paths, l, index_path, *len_paths);
 	return (SUCCESS);
 }
@@ -114,12 +114,10 @@ void			free_resolve_lemin(int n, int **paths, int *len_paths)
 	i = 0;
 	while (i < n)
 	{
-		free(paths[i]);
-		paths[i] = NULL;
+		ft_memdel((void**)&(paths[i]));
 		++i;
 	}
-	free(paths);
-	paths = NULL;
+	ft_memdel((void**)&paths);
 	ft_memdel((void**)&len_paths);
 }
 
