@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/06 06:09:55 by jrobin            #+#    #+#             */
-/*   Updated: 2018/04/11 19:39:50 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/04/20 16:09:07 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,20 @@ void			init_tab(int **prev, int **gap, int **next_curr, int max)
 	}
 }
 
+void			free_mat(int **mat, int max)
+{
+	int		j;
+
+	j = 0;
+	while (j < max)
+	{
+		ft_memdel((void**)&(mat[j]));
+		++j;
+	}
+	free(mat);
+	mat = NULL;
+}
+
 int				count_paths(int **mat, int max)
 {
 	int		i;
@@ -34,6 +48,9 @@ int				count_paths(int **mat, int max)
 	int		count2;
 
 	i = -1;
+	/*
+	 * AFFICHAGE MATRICE ADJACENCE
+	 */
 	while (++i < max)
 	{
 		j = -1;

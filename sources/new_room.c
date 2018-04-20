@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/09 03:13:28 by jrobin            #+#    #+#             */
-/*   Updated: 2018/04/20 00:40:53 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/04/20 14:22:27 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ int				stock_data_room(char **data, t_lemin *lemin)
 	room->coord_y = ft_atoi(data[2]);
 	free_data_lemin(data);
 	ft_lstadd_end(&lemin->all, ft_lstnew_na(room, sizeof(t_room)));
-//	ft_printf("\t\t\tRRRRRRROOM %p\n", room);
 	if (lemin->room_type)
 		set_start_end(lemin);
 	++lemin->nb_rooms;
@@ -85,7 +84,7 @@ int				is_command(char *line, t_lemin *lemin)
 
 int				is_room(char *line, t_lemin *l)
 {
-	ft_printf("peste {%s}\n", line);
+//	ft_printf("peste {%s}\n", line);
 	if ((l->data = ft_strsplit(line, ' ')) == NULL
 	|| !*l->data || **l->data == 'L')
 	{

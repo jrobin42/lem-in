@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 14:03:36 by jrobin            #+#    #+#             */
-/*   Updated: 2018/04/19 16:58:35 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/04/20 14:12:59 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int		get_nb_ants(char **line, t_lemin *l)
 			ft_memcpy(l->error_type, "NUMBER OF ANTS HAS TO BE POSITIVE", 33);
 			return (FAILURE);
 		}
-		l->to_print = ft_lstnew(*line, ft_strlen(*line) + 1);
+		l->to_print = ft_lstnew_na(*line, ft_strlen(*line) + 1);
 	}
 	else
 	{

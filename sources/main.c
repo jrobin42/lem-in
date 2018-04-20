@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 17:30:34 by jrobin            #+#    #+#             */
-/*   Updated: 2018/04/20 00:42:50 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/04/20 17:20:40 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,42 +20,34 @@ void	del(void *s, size_t n)
 
 void	free_lemin(t_lemin l, int nb)
 {
-	int		i;
-	t_list	*prev;
 
-	ft_lstdel(&(l.to_print), &del);
-//	ft_printf("tmp %p\nall %p\n\n", tmp, l.all);
-	while (l.all)
-	{
-		ft_strdel(&((t_room*)l.all->content)->name);
-		free(((t_room*)l.all->content));
-		prev = l.all;
-		l.all = l.all->next;
-		free(prev);
-//	ft_printf("tmp %p\nall %p\n\n", tmp, l.all);
-	}
-	(void)nb;
-	i = 0;
-//	ft_printf("HERE its ldata[0] %s\n", l.data[0]);
-//	while (l.data[i])
-//	{
-//		free((l.data[i]));
-//		++i;
-//	}
-/*	if (nb > 1)
-	{
-		i = 0;
-		while (i < l.nb_rooms)
+	if (nb == 1)
+		ft_lstdel(&(l.all), &del);
+/*		while (l.all)
 		{
-			free(l.adj_mtx[i]);
-			free(l.rooms[i]->name);
-			free(l.rooms[i]);
-			free(((t_room*)l.all->content)->name);
-			++i;
+			ft_strdel(&((t_room*)l.all->content)->name);
+			free(((t_room*)l.all->content));
+			prev = l.all;
+			l.all = l.all->next;
+			free(prev);
 		}
-		free(l.adj_mtx);
-	}
-	free(l.rooms);*/
+*/	else
+		ft_free_tab((void***)&(l.data));
+	/*	if (nb > 1)
+		{
+		free(l.end);	
+		free(l.start);	
+		}
+		*/	free(l.rooms);
+	/*	while (l.to_print)
+		{
+		ft_printf("{%s}\n", l.to_print->content);
+		ft_strdel((char**)&(l.to_print->content));
+		prev = l.to_print;
+		free(prev);
+		l.to_print = l.to_print->next;
+		}
+		*/	(void)nb;
 }
 
 int		main(void)
@@ -68,15 +60,17 @@ int		main(void)
 	if (collect_parse_data(&lemin, line) == FAILURE)
 	{
 		ft_printf("ERROR : WRONG INPUT\n%s\n", lemin.error_type);
+		ft_strdel(&line);
 		free_lemin(lemin, 1);
 		return (1);
 	}
-	if (resolve_lemin(&lemin, lemin.adj_mtx) == FAILURE)
+	else if (resolve_lemin(&lemin, lemin.adj_mtx) == FAILURE)
 	{
 		ft_printf("ERROR : NO SOLUTION\n");
-		//		free_lemin(lemin, 2);
+		free_lemin(lemin, 2);
 		return (1);
 	}
-	//	free_lemin(lemin, 3);
+	free_lemin(lemin, 3);
+	//	ft_printf("END {%s}\n", lemin.end->content);
 	return (0);
 }

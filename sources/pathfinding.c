@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/29 08:55:40 by jrobin            #+#    #+#             */
-/*   Updated: 2018/04/19 16:50:52 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/04/20 16:10:48 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ static int		find_shortest_path(int **prev, int **mat, int max)
 				}
 		curr = next_curr[i++];
 	}
-//	free(next_curr);
-//	free(gap);
+	free(next_curr);
+	free(gap);
 	return (curr == max - 1 && curr != -1 ? SUCCESS : FAILURE);
 }
 
@@ -93,13 +93,16 @@ int				path_finding(int nb_max_paths, t_lemin *l, int **paths,
 			delete_access(l->adj_mtx, paths[index_path], l->nb_rooms);
 		}
 		else if (index_path == 0)
+		{
+			free(prev);
 			return (FAILURE);
+		}
 		else
 			break ;
 		++index_path;
 		--nb_max_paths;
 	}
-	//free(prev);
+	free(prev);
 	print_soluce(paths, l, index_path, *len_paths);
 	return (SUCCESS);
 }
@@ -112,10 +115,12 @@ void			free_resolve_lemin(int n, int **paths, int *len_paths)
 	while (i < n)
 	{
 		free(paths[i]);
+		paths[i] = NULL;
 		++i;
 	}
 	free(paths);
-	free(len_paths);
+	paths = NULL;
+	ft_memdel((void**)&len_paths);
 }
 
 int				resolve_lemin(t_lemin *lemin, int **mat)
@@ -130,11 +135,13 @@ int				resolve_lemin(t_lemin *lemin, int **mat)
 		init_paths_tab(&len_paths, &paths, nb_max_paths, lemin);
 		if (path_finding(nb_max_paths, lemin, paths, &len_paths) == SUCCESS)
 		{
-		//	free_resolve_lemin(nb_max_paths, paths, len_paths);
+			free_resolve_lemin(nb_max_paths, paths, len_paths);
+			free_mat(mat, lemin->nb_rooms);
 			return (SUCCESS);
 		}
 		free_resolve_lemin(nb_max_paths, paths, len_paths);
 	}
 	ft_printf("END PATH : NB PATHS %d\n", nb_max_paths);
+	free_mat(mat, lemin->nb_rooms);
 	return (FAILURE);
 }

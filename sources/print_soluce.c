@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/06 05:53:37 by jrobin            #+#    #+#             */
-/*   Updated: 2018/04/11 18:33:41 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/04/20 16:00:08 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,22 @@
 
 static void			print_input(t_list *to_print, int step)
 {
+	t_list	*prev;
+
 	while (to_print)
 	{
+		prev = to_print;
 		if (to_print->next == NULL && step == 42)
 			break ;
 		ft_printf("%s\n", (char*)to_print->content);
+		ft_strdel((char**)&(to_print->content));
 		to_print = to_print->next;
+		free(prev);
+		prev = NULL;
 	}
+	ft_strdel((char**)&(to_print->content));
+	free(to_print);
+	free(prev);
 	ft_printf("\n");
 }
 
@@ -28,14 +37,14 @@ static void			print_curr_state(t_room **r, int *t, int len_path, int nb_paths)
 {
 	int		i;
 
-		i = 0;
-		while (i < len_path)
-		{
-			if (r[t[i]]->ant)
-				ft_printf("L%d-%s ", r[t[i]]->ant, r[t[i]]->name);
-			++i;
-		}
-		(void)nb_paths;
+	i = 0;
+	while (i < len_path)
+	{
+		if (r[t[i]]->ant)
+			ft_printf("L%d-%s ", r[t[i]]->ant, r[t[i]]->name);
+		++i;
+	}
+	(void)nb_paths;
 }
 
 void				usefull_paths(int **ants_for_each, int nb_ants, int *len_p,
@@ -70,7 +79,7 @@ void				usefull_paths(int **ants_for_each, int nb_ants, int *len_p,
 	i = 0;
 	while (i < *nb_paths)
 	{
-//		ft_printf("Nb ants for path %d = %d\n", i, (*ants_for_each)[i]);
+		//		ft_printf("Nb ants for path %d = %d\n", i, (*ants_for_each)[i]);
 		++i;
 	}
 }
@@ -81,26 +90,23 @@ static void			pull_ant(int nb_ants, t_room **r, int *path, int len_p)
 	int		nb;
 
 	nb = 0;
-//	while (nb < nb_ants)
-//	{
-		i = -1;
-		while (++i < len_p)
-			if (i == 0 && r[path[1]]->ant > 0 && ++nb)
-			{
-				r[path[i]]->ant = r[path[i + 1]]->ant;
-				r[path[i + 1]]->ant = 0;
-			}
-			else if (i == len_p - 1 && r[path[i]]->ant == 0 && r[0]->ant > 0)
-			{
-				r[path[i]]->ant = nb_ants - r[path[i + 1]]->ant + 1;
-				r[path[i + 1]]->ant -= 1;
-			}
-			else if (r[path[i]]->ant == 0 && r[path[i + 1]]->ant)
-			{
-				r[path[i]]->ant = r[path[i + 1]]->ant;
-				r[path[i + 1]]->ant = 0;
-			}
-//	}
+	i = -1;
+	while (++i < len_p)
+		if (i == 0 && r[path[1]]->ant > 0 && ++nb)
+		{
+			r[path[i]]->ant = r[path[i + 1]]->ant;
+			r[path[i + 1]]->ant = 0;
+		}
+		else if (i == len_p - 1 && r[path[i]]->ant == 0 && r[0]->ant > 0)
+		{
+			r[path[i]]->ant = nb_ants - r[path[i + 1]]->ant + 1;
+			r[path[i + 1]]->ant -= 1;
+		}
+		else if (r[path[i]]->ant == 0 && r[path[i + 1]]->ant)
+		{
+			r[path[i]]->ant = r[path[i + 1]]->ant;
+			r[path[i + 1]]->ant = 0;
+		}
 }
 
 void				print_soluce(int **paths, t_lemin *l, int nb_paths,
@@ -131,10 +137,10 @@ void				print_soluce(int **paths, t_lemin *l, int nb_paths,
 		ft_printf("\n");
 	}
 	free(ants_for_each);
-/*	i = -1;
+	i = -1;
 	while (++i < l->nb_rooms)
 	{
-		free(l->rooms[i]->name);
-		free(l->rooms[i]);
+		ft_strdel(&(l->rooms[i]->name));
+		ft_memdel((void**)&(l->rooms[i]));
 	}
-*/}
+}

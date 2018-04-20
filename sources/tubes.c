@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 14:06:14 by jrobin            #+#    #+#             */
-/*   Updated: 2018/04/19 23:47:47 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/04/20 17:04:34 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,13 @@ static void		create_rooms_tab(t_room ***rooms, t_lemin *l)
 {
 	int		i;
 	t_room	**tmp;
+	t_list	*beg;
 
 	i = 0;
-	if ((tmp = ft_memalloc((l->nb_rooms + 1) * sizeof(t_room*))) == NULL)
+	beg = l->all;
+	if ((*rooms = ft_memalloc((l->nb_rooms + 1) * sizeof(t_room*))) == NULL)
 		exit(-1);
+	tmp = *rooms;
 	tmp[0] = l->start->content;
 	tmp[l->nb_rooms - 1] = l->end->content;
 	while (l->all)
@@ -93,6 +96,7 @@ static void		create_rooms_tab(t_room ***rooms, t_lemin *l)
 		}
 		l->all = l->all->next;
 	}
+	l->all = beg;
 	*rooms = tmp;
 }
 
@@ -100,7 +104,6 @@ int				create_adjacency_matrix(t_room ***rooms, t_lemin *l, char *line)
 {
 	int		ret;
 
-	ft_printf("PLOP\n");
 	if (l->step == 1)
 	{
 		create_rooms_tab(rooms, l);
