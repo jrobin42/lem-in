@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 14:03:36 by jrobin            #+#    #+#             */
-/*   Updated: 2018/04/20 14:12:59 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/04/26 18:50:43 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,5 @@ int		get_nb_ants(char **line, t_lemin *l)
 			ft_memcpy(l->error_type, "NUMBER OF ANTS NEEDED", 21);
 		return (FAILURE);
 	}
-	ft_printf("olololo\n");
 	return (TRUE);
 }

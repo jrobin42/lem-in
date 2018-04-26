@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/09 03:13:28 by jrobin            #+#    #+#             */
-/*   Updated: 2018/04/20 14:22:27 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/04/26 18:58:52 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,14 +84,11 @@ int				is_command(char *line, t_lemin *lemin)
 
 int				is_room(char *line, t_lemin *l)
 {
-//	ft_printf("peste {%s}\n", line);
-	if ((l->data = ft_strsplit(line, ' ')) == NULL
-	|| !*l->data || **l->data == 'L')
-	{
-		if (**l->data == 'L')
-			ft_memcpy(l->error_type, "ROOM NAME MUST NOT BEGIN BY AN L", 32);
+	if ((l->data = ft_strsplit(line, ' ')) == NULL || !*l->data)
 		return (FAILURE);
-	}
+	if (!**l->data || (**l->data == 'L'
+	&& ft_memcpy(l->error_type, "ROOM NAME MUST NOT BEGIN BY AN L", 32)))
+		return (FAILURE);
 	if (ft_strchr(*l->data, '-'))
 	{
 		if (error_room(l) && ft_memcpy(l->error_type, "SAME COORD OR NAME", 18))

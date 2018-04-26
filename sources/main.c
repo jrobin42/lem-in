@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 17:30:34 by jrobin            #+#    #+#             */
-/*   Updated: 2018/04/26 18:43:10 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/04/26 19:24:47 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 void	del(void *s, size_t n)
 {
-	ft_strdel((char**)&(((t_room*)s)->name));
+	if (s)
+		ft_strdel((char**)&(((t_room*)s)->name));
 	ft_memdel(&s);
 	(void)n;
 }
@@ -25,38 +26,39 @@ void	del_to_print(void *s, size_t n)
 	(void)n;
 }
 
+void	del_all(void *s, size_t n)
+{
+	ft_strdel((char**)&(((t_room*)s)->name));
+	ft_memdel(&s);
+	(void)n;
+}
+
 void	free_rooms(t_room **r, int nb_rooms)
 {
 	int		i;
 
 	i = 0;
-	while (i < nb_rooms)
+	while (r && i < nb_rooms)
 	{
-		ft_strdel(&(r[i]->name));
+		if (r[i])
+			ft_strdel(&(r[i]->name));
 		ft_memdel((void**)&(r[i]));
 		++i;
 	}
 	ft_memdel((void**)&r);
 }
 
-void	free_lemin(t_lemin l, int nb)
+void	free_lemin(t_lemin l)
 {
-	t_list	*tmp;
-	(void)nb;
-
-	tmp = l.all;
 	ft_lstdel(&(l.to_print), &del_to_print);
-//	if (nb <= 3)
-//	{
-		ft_lstdel(&(l.all), NULL);
-	//	ft_memdel((void**)&(l.all));
-//	}
-//	else
+	if (l.rooms)
 	{
 		ft_free_tab((void***)&(l.data));
+		ft_lstdel(&(l.all), NULL);
+		free_rooms(l.rooms, l.nb_rooms);
 	}
-	free_rooms(l.rooms, l.nb_rooms);
-//	ft_memdel((void**)&(l.rooms));
+	else
+		ft_lstdel(&(l.all), &del);
 }
 
 int		main(void)
@@ -74,16 +76,15 @@ int		main(void)
 	if (collect_parse_data(&lemin, line) == FAILURE)
 	{
 		ft_printf("ERROR : WRONG INPUT\n%s\n", lemin.error_type);
-		ft_strdel(&line);
-		free_lemin(lemin, 1);
+		free_lemin(lemin);
 		return (1);
 	}
 	else if (resolve_lemin(&lemin, lemin.adj_mtx) == FAILURE)
 	{
 		ft_printf("ERROR : NO SOLUTION\n");
-		free_lemin(lemin, 2);
+		free_lemin(lemin);
 		return (1);
 	}
-	free_lemin(lemin, 3);
+	free_lemin(lemin);
 	return (0);
 }

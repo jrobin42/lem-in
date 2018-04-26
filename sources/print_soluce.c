@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/06 05:53:37 by jrobin            #+#    #+#             */
-/*   Updated: 2018/04/26 17:44:01 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/04/26 18:52:37 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,13 @@
 
 static void			print_input(t_list *to_print, int step)
 {
-//	t_list	*prev;
-
 	while (to_print)
 	{
-//		prev = to_print;
 		if (to_print->next == NULL && step == 42)
 			break ;
 		ft_printf("%s\n", (char*)to_print->content);
-//		ft_strdel((char**)&(to_print->content));
 		to_print = to_print->next;
-//		free(prev);
-//		prev = NULL;
 	}
-//	ft_strdel((char**)&(to_print->content));
-//	free(to_print);
-//	free(prev);
 	ft_printf("\n");
 }
 
@@ -137,10 +128,4 @@ void				print_soluce(int **paths, t_lemin *l, int nb_paths,
 		ft_printf("\n");
 	}
 	free(ants_for_each);
-	i = -1;
-	while (++i < l->nb_rooms)
-	{
-		ft_strdel(&(l->rooms[i]->name));
-		ft_memdel((void**)&(l->rooms[i]));
-	}
 }
