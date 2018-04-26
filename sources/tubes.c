@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 14:06:14 by jrobin            #+#    #+#             */
-/*   Updated: 2018/04/20 17:47:17 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/04/26 17:49:30 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,10 @@ static int		is_tube(char *line, t_lemin *l)
 					if (ft_strequ(tubes[1], (l->rooms)[j]->name))
 					{
 						put_score(l, i, j);
-						free_tubes(tubes);
+						ft_free_tab((void***)&tubes);
 						return (TRUE);
 					}
-	free_tubes(tubes);
+	ft_free_tab((void***)&tubes);
 	l->step = 42;
 	return (FALSE);
 }

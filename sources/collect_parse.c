@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 17:42:01 by jrobin            #+#    #+#             */
-/*   Updated: 2018/04/20 14:27:24 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/04/26 17:39:03 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,7 @@ int		collect_parse_data(t_lemin *l, char *line)
 {
 	int		ret;
 
-	if ((ret = get_nb_ants(&line, l)) == FAILURE)		
-		return (FAILURE);
+	ret = SUCCESS;
 	while (ret != FAILURE && (ret = get_next_line(0, &line)) > 0)
 	{
 		ft_lstadd_end(&l->to_print, ft_lstnew_na(line, ft_strlen(line) + 1));
@@ -25,6 +24,7 @@ int		collect_parse_data(t_lemin *l, char *line)
 			continue ;
 		else if (l->step == 0 && (ret = is_room(line, l)) == TRUE)
 		{
+			ft_printf("stock data room\n");
 			stock_data_room(l->data, l);
 		}
 		else if (l->step > 0)

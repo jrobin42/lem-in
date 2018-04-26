@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/06 05:53:37 by jrobin            #+#    #+#             */
-/*   Updated: 2018/04/20 16:00:08 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/04/26 17:44:01 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,22 @@
 
 static void			print_input(t_list *to_print, int step)
 {
-	t_list	*prev;
+//	t_list	*prev;
 
 	while (to_print)
 	{
-		prev = to_print;
+//		prev = to_print;
 		if (to_print->next == NULL && step == 42)
 			break ;
 		ft_printf("%s\n", (char*)to_print->content);
-		ft_strdel((char**)&(to_print->content));
+//		ft_strdel((char**)&(to_print->content));
 		to_print = to_print->next;
-		free(prev);
-		prev = NULL;
+//		free(prev);
+//		prev = NULL;
 	}
-	ft_strdel((char**)&(to_print->content));
-	free(to_print);
-	free(prev);
+//	ft_strdel((char**)&(to_print->content));
+//	free(to_print);
+//	free(prev);
 	ft_printf("\n");
 }
 
