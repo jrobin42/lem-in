@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 16:49:02 by jrobin            #+#    #+#             */
-/*   Updated: 2018/04/20 16:09:28 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/04/27 15:51:29 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,5 +84,6 @@ void				set_next_curr(int *next_curr, int new, int max);
 void				delete_access(int **mat, int *path, int max);
 void				print_soluce(int **paths, t_lemin *l, int nb_paths, int *len_paths);
 void				free_mat(int **mat, int max);
+void				print_adj_mtx(int max, int **mat);
 
 #endif

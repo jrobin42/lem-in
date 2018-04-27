@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/06 05:53:37 by jrobin            #+#    #+#             */
-/*   Updated: 2018/04/26 18:52:37 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/04/27 15:09:28 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,14 +65,15 @@ void				usefull_paths(int **ants_for_each, int nb_ants, int *len_p,
 	while (i < *nb_paths && (*ants_for_each)[i])
 		++i;
 	*nb_paths = i;
-
-	/*Aff nb for each path !*/
 	i = 0;
+	ft_printf("Ants distribution :\n\n");
 	while (i < *nb_paths)
 	{
-		//		ft_printf("Nb ants for path %d = %d\n", i, (*ants_for_each)[i]);
+		ft_printf("\tFor path no %d : %d", i, (*ants_for_each)[i]);
+		ft_printf((*ants_for_each)[i] == 1 ? " ant\n" : " ants\n");
 		++i;
 	}
+	ft_printf("\n\n");
 }
 
 static void			pull_ant(int nb_ants, t_room **r, int *path, int len_p)
@@ -110,11 +111,11 @@ void				print_soluce(int **paths, t_lemin *l, int nb_paths,
 
 	index_p = 0;
 	r = l->rooms;
-	print_input(l->to_print, l->step);
 	if ((ants_for_each = ft_memalloc(nb_paths * sizeof(int))) == NULL)
 		exit(-1);
 	if (nb_paths > 1)
 		usefull_paths(&ants_for_each, l->nb_ants, len_p, &nb_paths);
+	print_input(l->to_print, l->step);
 	r[0]->ant = l->nb_ants;
 	while (r[l->nb_rooms - 1]->ant < l->nb_ants)
 	{

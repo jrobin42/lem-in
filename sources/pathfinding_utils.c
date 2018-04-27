@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/06 06:09:55 by jrobin            #+#    #+#             */
-/*   Updated: 2018/04/20 16:09:07 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/04/27 15:51:16 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,25 +40,30 @@ void			free_mat(int **mat, int max)
 	mat = NULL;
 }
 
-int				count_paths(int **mat, int max)
+void		print_adj_mtx(int max, int **mat)
 {
 	int		i;
 	int		j;
-	int		count1;
-	int		count2;
 
 	i = -1;
-	/*
-	 * AFFICHAGE MATRICE ADJACENCE
-	 */
+	ft_printf("Adjacency matrix :\n\n");
 	while (++i < max)
 	{
+		ft_printf("\t");
 		j = -1;
 		while (++j < max)
 			ft_printf("%d ", mat[i][j]);
 		ft_printf("\n");
 	}
-	ft_printf("max = %d\n", max);
+	ft_printf("\n\n");
+}
+
+int				count_paths(int **mat, int max)
+{
+	int		i;
+	int		count1;
+	int		count2;
+
 	count1 = 0;
 	count2 = 0;
 	i = 1;

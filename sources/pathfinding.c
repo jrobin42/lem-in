@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/29 08:55:40 by jrobin            #+#    #+#             */
-/*   Updated: 2018/04/20 18:55:26 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/04/27 15:51:50 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,30 @@ static void		init_paths_tab(int **len_paths, int ***paths, int nb_max_paths,
 			exit(-1);
 }
 
+void			aff_paths(t_lemin *l, int **path, int *len_paths, int nb_paths)
+{
+	int		i;
+	int		j;
+
+	j = 0;
+	ft_printf("There is %d", nb_paths - 1);
+	nb_paths - 1 > 1 ? ft_printf(" paths :\n\n") : ft_printf(" path :\n\n");
+	while (nb_paths - 1)
+	{
+		ft_printf("\tPath no %d :\t%s->", j, l->rooms[0]->name);
+		i = len_paths[j] - 1;
+		while (i > 0)
+		{
+			ft_printf("%s->", l->rooms[path[j][i]]->name);
+			--i;
+		}
+		ft_printf("%s\n", l->rooms[path[j][i]]->name);
+		--nb_paths;
+		++j;
+	}
+	ft_printf("\n\n");
+}
+
 int				path_finding(int nb_max_paths, t_lemin *l, int **paths,
 							int **len_paths)
 {
@@ -102,6 +126,7 @@ int				path_finding(int nb_max_paths, t_lemin *l, int **paths,
 		++index_path;
 		--nb_max_paths;
 	}
+	aff_paths(l, paths, *len_paths, index_path + 1);
 	ft_memdel((void**)&prev);
 	print_soluce(paths, l, index_path, *len_paths);
 	return (SUCCESS);
@@ -127,9 +152,9 @@ int				resolve_lemin(t_lemin *lemin, int **mat)
 	int		*len_paths;
 	int		**paths;
 
+	print_adj_mtx(lemin->nb_rooms, mat);
 	if ((nb_max_paths = count_paths(mat, lemin->nb_rooms)) > 0)
 	{
-	ft_printf("NB PATHS %d\n", nb_max_paths);
 		init_paths_tab(&len_paths, &paths, nb_max_paths, lemin);
 		if (path_finding(nb_max_paths, lemin, paths, &len_paths) == SUCCESS)
 		{
@@ -139,7 +164,6 @@ int				resolve_lemin(t_lemin *lemin, int **mat)
 		}
 		free_resolve_lemin(nb_max_paths, paths, len_paths);
 	}
-	ft_printf("END PATH : NB PATHS %d\n", nb_max_paths);
 	free_mat(mat, lemin->nb_rooms);
 	return (FAILURE);
 }

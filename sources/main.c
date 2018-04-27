@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 17:30:34 by jrobin            #+#    #+#             */
-/*   Updated: 2018/04/26 19:24:47 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/04/27 15:47:41 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int		main(void)
 		free_lemin(lemin);
 		return (1);
 	}
-	else if (resolve_lemin(&lemin, lemin.adj_mtx) == FAILURE)
+	else if (!lemin.adj_mtx || resolve_lemin(&lemin, lemin.adj_mtx) == FAILURE)
 	{
 		ft_printf("ERROR : NO SOLUTION\n");
 		free_lemin(lemin);
