@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 16:49:02 by jrobin            #+#    #+#             */
-/*   Updated: 2018/04/27 15:51:29 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/04/29 00:39:33 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,7 @@
 # define FAILURE -1
 # define TRUE 1
 # define FALSE 0
-
 # define SIZE_ERROR 50
-# define ERR l->error_type
-# define PATH ((t_path*)path->content)
-# define STEP lemin->step
-# define LINE (lemin->line)
-# define MAX lemin->nb_rooms
-# define L_DATA lemin->data
-# define L_ROOM ((t_room*)lemin->all->content)
-# define START ((t_room*)lemin->start->content)
-# define END ((t_room*)lemin->end->content)
-# define ADJ_MTX lemin->adj_mtx
 
 typedef struct		s_room
 {
@@ -57,9 +46,9 @@ typedef struct		s_lemin
 	int				step;
 	int				nb_rooms;
 	int				**adj_mtx;
-	int				room_type; //0->rien 1->start 2->end
+	int				room_type;
 	t_list			*to_print;
-	t_list			*all; //all rooms
+	t_list			*all;
 	t_list			*start;
 	t_list			*end;
 	t_room			**rooms;
@@ -76,14 +65,27 @@ int					arent_coord(char **line);
 int					stock_data_room(char **data, t_lemin *lemin);
 int					error_room(t_lemin *lemin);
 int					get_nb_ants(char **line, t_lemin *lemin);
-int					create_adjacency_matrix(t_room ***rooms, t_lemin *lemin, char * line);
+int					create_adjacency_matrix(t_room ***rooms, t_lemin *lemin,
+				char *line);
 int					resolve_lemin(t_lemin *lemin, int **mat);
 void				init_tab(int **prev, int **gap, int **next_curr, int max);
 int					count_paths(int **mat, int max);
 void				set_next_curr(int *next_curr, int new, int max);
 void				delete_access(int **mat, int *path, int max);
-void				print_soluce(int **paths, t_lemin *l, int nb_paths, int *len_paths);
+void				print_soluce(int **paths, t_lemin *l, int nb_paths,
+				int *len_paths);
 void				free_mat(int **mat, int max);
 void				print_adj_mtx(int max, int **mat);
+void				del(void *s, size_t n);
+void				del_to_print(void *s, size_t n);
+void				free_rooms(t_room **r, int nb_rooms);
+void				free_lemin(t_lemin l);
+void				free_mat(int **mat, int max);
+void				free_resolve_lemin(int n, int **paths, int *len_paths);
+void				usefull_paths(int **ants_for_each, int nb_ants, int *len_p,
+				int *nb_paths);
+void				pull_ant(int nb_ants, t_room **r, int *path, int len_p);
+void				aff_paths(t_lemin *l, int **path, int *len_paths,
+				int nb_paths);
 
 #endif
