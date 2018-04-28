@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 14:06:14 by jrobin            #+#    #+#             */
-/*   Updated: 2018/04/27 15:05:20 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/04/29 01:24:12 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,6 @@ static void		put_score(t_lemin *l, int i, int j)
 {
 	l->adj_mtx[i][j] = 1;
 	l->adj_mtx[j][i] = 1;
-}
-
-void			free_tubes(char **tubes)
-{
-	int		i;
-
-	i = 0;
-	if (tubes && *tubes)
-	{
-		while (tubes[i])
-		{
-			free(tubes[i]);
-			++i;
-		}
-		free(tubes);
-	}
 }
 
 static int		is_tube(char *line, t_lemin *l)

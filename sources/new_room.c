@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/09 03:13:28 by jrobin            #+#    #+#             */
-/*   Updated: 2018/04/26 18:58:52 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/04/29 00:16:24 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,28 +24,16 @@ static void		set_start_end(t_lemin *lemin)
 	lemin->room_type = 0;
 }
 
-int				free_data_lemin(char **data)
-{
-	int		i;
-
-	i = -1;
-	if (data)
-		while (data[++i])
-			free(data[i]);
-	free(data);
-	return (SUCCESS);
-}
-
 int				stock_data_room(char **data, t_lemin *lemin)
 {
 	t_room		*room;
 
 	if ((room = ft_memalloc(sizeof(t_room))) == NULL)
-		exit (-1);
+		exit(-1);
 	room->name = ft_strdup(data[0]);
 	room->coord_x = ft_atoi(data[1]);
 	room->coord_y = ft_atoi(data[2]);
-	free_data_lemin(data);
+	ft_free_tab((void***)&data);
 	ft_lstadd_end(&lemin->all, ft_lstnew_na(room, sizeof(t_room)));
 	if (lemin->room_type)
 		set_start_end(lemin);

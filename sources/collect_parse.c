@@ -6,11 +6,36 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 17:42:01 by jrobin            #+#    #+#             */
-/*   Updated: 2018/04/26 18:49:39 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/04/29 01:24:47 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
+
+int		get_nb_ants(char **line, t_lemin *l)
+{
+	if (get_next_line(0, line) < 1)
+		return (FAILURE);
+	if (ft_isint(*line))
+	{
+		if ((l->nb_ants = ft_atoi(*line)) < 1)
+		{
+			ft_memcpy(l->error_type, "NUMBER OF ANTS HAS TO BE POSITIVE", 33);
+			return (FAILURE);
+		}
+		l->to_print = ft_lstnew_na(*line, ft_strlen(*line) + 1);
+	}
+	else
+	{
+		if (**line)
+			ft_memcpy(l->error_type,
+			"NUMBER OF ANTS HAS TO BE WRITTEN IN DIGITS", 42);
+		else
+			ft_memcpy(l->error_type, "NUMBER OF ANTS NEEDED", 21);
+		return (FAILURE);
+	}
+	return (TRUE);
+}
 
 int		collect_parse_data(t_lemin *l, char *line)
 {
