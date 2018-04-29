@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 17:30:34 by jrobin            #+#    #+#             */
-/*   Updated: 2018/04/29 00:17:45 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/04/29 01:45:26 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ int		main(void)
 	line = NULL;
 	if (get_nb_ants(&line, &lemin) == FAILURE)
 	{
-		ft_strdel(&line);
 		ft_printf("ERROR : WRONG INPUT\n%s\n", lemin.error_type);
 		return (FAILURE);
 	}
