@@ -6,7 +6,7 @@
 #    By: jrobin <jrobin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/11 19:28:47 by jrobin            #+#    #+#              #
-#    Updated: 2018/04/29 01:29:57 by jrobin           ###   ########.fr        #
+#    Updated: 2018/04/29 02:19:25 by jrobin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ LIB =		$(PATH_LIB)$(NAME_LIB)
 PATH_INC =	includes/
 
 CC =		gcc
-FLAGS =		-Wall -Wextra -Werror -g
+FLAGS =		-Wall -Wextra -Werror
 
 DIR_SRC =	sources/
 DIR_OBJ =	obj/
@@ -60,7 +60,7 @@ $(DIR_OBJ):
 	@mkdir -p $(dir $(OBJS))
 
 clean:
-	make clean -C $(PATH_LIB)
+	@make clean -C $(PATH_LIB)
 	@rm -rf $(DIR_OBJ)
 
 fclean: clean
