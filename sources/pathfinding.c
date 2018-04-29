@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/29 08:55:40 by jrobin            #+#    #+#             */
-/*   Updated: 2018/04/29 01:34:44 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/04/29 03:17:43 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int				path_finding(int nb_max_paths, t_lemin *l, int **paths,
 			break ;
 		++i;
 	}
-//	aff_paths(l, paths, *len_paths, i + 1);
+	aff_paths(l, paths, *len_paths, i + 1);
 	ft_memdel((void**)&prev);
 	print_soluce(paths, l, i, *len_paths);
 	return (SUCCESS);
@@ -108,7 +108,7 @@ int				resolve_lemin(t_lemin *lemin, int **mat)
 	int		*len_paths;
 	int		**paths;
 
-//	print_adj_mtx(lemin->nb_rooms, mat);
+	print_adj_mtx(lemin->nb_rooms, mat);
 	if ((nb_max_paths = count_paths(mat, lemin->nb_rooms)) > 0)
 	{
 		init_paths_tab(&len_paths, &paths, nb_max_paths, lemin);

@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/29 00:19:49 by jrobin            #+#    #+#             */
-/*   Updated: 2018/04/29 01:35:16 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/04/29 03:17:16 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void			usefull_paths(int **ants_for_each, int nb_ants, int *len_p,
 		}
 		i = i + 1 == *nb_paths ? 0 : i + 1;
 	}
-//	print_ants_distribution(nb_paths, ants_for_each);
+	print_ants_distribution(nb_paths, ants_for_each);
 }
 
 void			pull_ant(int nb_ants, t_room **r, int *path, int len_p)
