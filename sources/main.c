@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 17:30:34 by jrobin            #+#    #+#             */
-/*   Updated: 2018/05/06 18:07:46 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/05/06 18:36:13 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,14 @@ int				main(int ac, char **av)
 	{
 		ft_printf("ERROR : WRONG INPUT\n%s\n", lemin.error_type);
 		free_lemin(lemin);
-		return (1);
+		return (FAILURE);
 	}
 	else if (!lemin.adj_mtx || resolve_lemin(&lemin, lemin.adj_mtx) == FAILURE)
 	{
 		ft_printf("ERROR : NO SOLUTION\n");
 		free_lemin(lemin);
-		return (1);
+		return (FAILURE);
 	}
 	free_lemin(lemin);
-	return (0);
+	return (SUCCESS);
 }
