@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/29 08:55:40 by jrobin            #+#    #+#             */
-/*   Updated: 2018/04/29 03:17:43 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/04/30 15:52:53 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ int				resolve_lemin(t_lemin *lemin, int **mat)
 	int		*len_paths;
 	int		**paths;
 
-	print_adj_mtx(lemin->nb_rooms, mat);
+	lemin->opt ? print_adj_mtx(lemin->nb_rooms, mat) : 0;
 	if ((nb_max_paths = count_paths(mat, lemin->nb_rooms)) > 0)
 	{
 		init_paths_tab(&len_paths, &paths, nb_max_paths, lemin);

@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/06 05:53:37 by jrobin            #+#    #+#             */
-/*   Updated: 2018/04/29 01:04:33 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/05/06 18:07:50 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,11 @@ void				print_soluce(int **paths, t_lemin *l, int nb_p,
 	print_input(l->to_print, l->step);
 	r[0]->ant = l->nb_ants;
 	if (*len_p > 1)
-		while (r[l->nb_rooms - 1]->ant < l->nb_ants)
+		while (l->arrived_ants < l->nb_ants)
 		{
 			i = -1;
 			while (++i < nb_p)
-				pull_ant(l->nb_ants, r, paths[i], len_p[i]);
+				pull_ant(l, r, paths[i], len_p[i]);
 			print_curr_state(r, paths, len_p, nb_p);
 		}
 	else

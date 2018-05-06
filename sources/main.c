@@ -6,13 +6,13 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 17:30:34 by jrobin            #+#    #+#             */
-/*   Updated: 2018/04/29 01:45:26 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/05/06 18:07:46 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-void	free_lemin(t_lemin l)
+void			free_lemin(t_lemin l)
 {
 	ft_lstdel(&(l.to_print), &del_to_print);
 	if (l.rooms)
@@ -25,19 +25,26 @@ void	free_lemin(t_lemin l)
 		ft_lstdel(&(l.all), &del);
 }
 
-int		main(void)
+static void		parse_opt(int ac, char **opt, t_lemin *l)
+{
+	if (ac == 2 && ft_strequ(opt[1], "-m"))
+		l->opt = 1;
+}
+
+int				main(int ac, char **av)
 {
 	char		*line;
 	t_lemin		lemin;
 
 	ft_bzero(&lemin, sizeof(lemin));
 	line = NULL;
+	parse_opt(ac, av, &lemin);
 	if (get_nb_ants(&line, &lemin) == FAILURE)
 	{
 		ft_printf("ERROR : WRONG INPUT\n%s\n", lemin.error_type);
 		return (FAILURE);
 	}
-	if (collect_parse_data(&lemin, line) == FAILURE)
+	if (collect_parse_data(&lemin, line) == FAILURE && !lemin.adj_mtx)
 	{
 		ft_printf("ERROR : WRONG INPUT\n%s\n", lemin.error_type);
 		free_lemin(lemin);

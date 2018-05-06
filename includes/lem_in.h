@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/05 16:49:02 by jrobin            #+#    #+#             */
-/*   Updated: 2018/04/29 00:39:33 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/05/06 18:04:40 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ typedef struct		s_lemin
 	t_list			*end;
 	t_room			**rooms;
 	int				nb_ants;
+	int				opt;
+	int				arrived_ants;
 }					t_lemin;
 
 int					collect_parse_data(t_lemin *lemin, char *line);
@@ -84,7 +86,7 @@ void				free_mat(int **mat, int max);
 void				free_resolve_lemin(int n, int **paths, int *len_paths);
 void				usefull_paths(int **ants_for_each, int nb_ants, int *len_p,
 				int *nb_paths);
-void				pull_ant(int nb_ants, t_room **r, int *path, int len_p);
+void				pull_ant(t_lemin *l, t_room **r, int *path, int len_p);
 void				aff_paths(t_lemin *l, int **path, int *len_paths,
 				int nb_paths);
 

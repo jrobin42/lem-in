@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 14:06:14 by jrobin            #+#    #+#             */
-/*   Updated: 2018/04/29 01:24:12 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/04/30 16:13:52 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int		is_tube(char *line, t_lemin *l)
 	int		j;
 	char	**tubes;
 
-	if ((tubes = ft_strsplit(line, '-')) == NULL)
+	if (countchar(line, '-') != 1 || (tubes = ft_strsplit(line, '-')) == NULL)
 		return (FAILURE);
 	i = -1;
 	if (tubes[0] && tubes[1] && !tubes[2])
