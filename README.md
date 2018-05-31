@@ -1,7 +1,6 @@
 # Lem-in
 
 ### Install and compile
-
 #### Steps
 
 1. `git clone https://github.com/jrobin42/lem-in.git ~/lem-in`  
