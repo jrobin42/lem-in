@@ -9,4 +9,5 @@
 
 ### Usage
 
+```
 ./lem-in < {MAP}
